@@ -1,7 +1,7 @@
 export enum UserRoles {
-  ADMIN,
-  MODERATOR,
-  OWNER,
+  ADMIN = "ADMIN",
+  MODERATOR = "MODERATOR",
+  OWNER = "OWNER",
 }
 
 export type RefreshToken = {
