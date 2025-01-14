@@ -14,7 +14,7 @@ const useUrlBreadcrumb = () => {
   >([]);
 
   useEffect(() => {
-    const parts = path.split("/");
+    const parts = path.split("/").slice(1);
     const res = Array(parts.length)
       .fill(0)
       .map((_, i) => parts.slice(0, i + 1))

@@ -1,9 +1,14 @@
+import { UsersTable } from "@/features/user";
 import React from "react";
 
 export interface UsersPageProps {}
 
 const UsersPage: React.FC<UsersPageProps> = ({}) => {
-  return <span>Users page</span>;
+  return (
+    <div className="">
+      <UsersTable />
+    </div>
+  );
 };
 
 export default React.memo(UsersPage);

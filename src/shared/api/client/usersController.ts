@@ -4,10 +4,21 @@ import {
   PasswordRequest,
   RefreshRequest,
   RegisterRequest,
+  RolesRequest,
   Tokens,
   User,
 } from "@/shared/types/user";
 import { apiClient } from "./axios";
+import { Pagination } from "@/shared/types/generic";
+
+const getUsersPerPage = async (page: number) => {
+  const response = await apiClient.get<Pagination<User>>("/users", {
+    params: {
+      page: page,
+    },
+  });
+  return response.data;
+};
 
 const getUser = async (id: number) => {
   const response = await apiClient.get<User>(`/users/${id}`);
@@ -59,7 +70,13 @@ const changePassword = async (data: PasswordRequest) => {
   return response.data.user;
 };
 
+const setRoles = async (userId: number, data: RolesRequest) => {
+  const response = await apiClient.put<User>(`/users/${userId}/roles`, data);
+  return response.data;
+};
+
 const usersController = {
+  getUsersPerPage,
   getAuthUser,
   getUser,
   registerUser,
@@ -67,6 +84,7 @@ const usersController = {
   refreshToken,
   logoutUser,
   changePassword,
+  setRoles,
 };
 
 export default usersController;

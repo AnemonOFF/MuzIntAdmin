@@ -1,7 +1,7 @@
 export enum UserRoles {
-  ADMIN = "ADMIN",
-  MODERATOR = "MODERATOR",
-  OWNER = "OWNER",
+  ADMIN = "admin",
+  MODERATOR = "moderator",
+  OWNER = "owner",
 }
 
 export type RefreshToken = {
@@ -46,4 +46,8 @@ export type PasswordRequest = {
 export type LoginRequest = {
   email: string;
   password: string;
+};
+
+export type RolesRequest = {
+  roles: string[];
 };
