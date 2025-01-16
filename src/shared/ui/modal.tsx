@@ -24,6 +24,8 @@ export interface ModalProps {
   content: React.ReactNode;
   title?: React.ReactNode;
   description?: React.ReactNode;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -31,13 +33,18 @@ const Modal: React.FC<ModalProps> = ({
   trigger,
   title,
   description,
+  open: openProps,
+  onOpenChange: onOpenChangeProps,
 }) => {
   const [open, setOpen] = React.useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
   if (isDesktop) {
     return (
-      <Dialog open={open} onOpenChange={setOpen}>
+      <Dialog
+        open={openProps ?? open}
+        onOpenChange={onOpenChangeProps ?? setOpen}
+      >
         <DialogTrigger asChild>{trigger}</DialogTrigger>
         <DialogContent className="max-w-none w-fit">
           {(title || description) && (
@@ -55,7 +62,10 @@ const Modal: React.FC<ModalProps> = ({
   }
 
   return (
-    <Drawer open={open} onOpenChange={setOpen}>
+    <Drawer
+      open={openProps ?? open}
+      onOpenChange={onOpenChangeProps ?? setOpen}
+    >
       <DrawerTrigger asChild>{trigger}</DrawerTrigger>
       <DrawerContent>
         {(title || description) && (

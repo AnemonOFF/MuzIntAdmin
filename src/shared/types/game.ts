@@ -7,6 +7,7 @@ export type Game = {
   isStarted: boolean;
   isEnded: boolean;
   status: GameStatus;
+  startTimeUTC: Date;
   startedTimeUTC?: Date;
   endedTimeUTC?: Date;
   currentTourId: Tour["id"];
@@ -14,11 +15,11 @@ export type Game = {
 };
 
 export enum GameStatus {
-  WaitForStart,
-  TourInProgress,
-  TourResults,
-  Results,
-  Ended,
+  WaitForStart = "WaitForStart",
+  TourInProgress = "TourInProgress",
+  TourResults = "TourResults",
+  Results = "Results",
+  Ended = "Ended",
 }
 
 export type CreateGameRequest = {

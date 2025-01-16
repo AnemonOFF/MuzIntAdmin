@@ -5,3 +5,13 @@ export const roleLabels = {
   [UserRoles.MODERATOR]: "Модератор",
   [UserRoles.OWNER]: "Владелец",
 };
+
+export const featureAccess: {
+  [key: string]: UserRoles[];
+} = {
+  "admin.games.approving": [UserRoles.OWNER, UserRoles.ADMIN],
+};
+
+export const haveFeatureAccess = (feature: string, roles: UserRoles[]) =>
+  Object.keys(featureAccess).includes(feature) &&
+  featureAccess[feature].some((role) => roles.includes(role));
