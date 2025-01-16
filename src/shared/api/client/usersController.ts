@@ -20,7 +20,7 @@ const getUsersPerPage = async (page: number) => {
   return response.data;
 };
 
-const getUser = async (id: number) => {
+const getUser = async (id: User["id"]) => {
   const response = await apiClient.get<User>(`/users/${id}`);
   return response.data;
 };
@@ -70,7 +70,7 @@ const changePassword = async (data: PasswordRequest) => {
   return response.data.user;
 };
 
-const setRoles = async (userId: number, data: RolesRequest) => {
+const setRoles = async (userId: User["id"], data: RolesRequest) => {
   const response = await apiClient.put<User>(`/users/${userId}/roles`, data);
   return response.data;
 };

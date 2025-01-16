@@ -1,4 +1,6 @@
-import usersController from "@/shared/api/client/usersController";
+"use client";
+
+import { usersController } from "@/shared/api/client";
 import { userKeys } from "@/shared/lib/queryKeyFactory";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
