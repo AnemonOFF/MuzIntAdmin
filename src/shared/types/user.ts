@@ -4,6 +4,13 @@ export enum UserRoles {
   OWNER = "owner",
 }
 
+export type API_RefreshToken = {
+  token: string;
+  ip?: string;
+  device?: string;
+  expiredDateTime: string;
+};
+
 export type RefreshToken = {
   token: string;
   ip?: string;

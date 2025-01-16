@@ -18,7 +18,7 @@ export const columns: ColumnDef<Game>[] = [
     cell: ({ row }) => {
       return (
         row.original.startedTimeUTC ?? row.original.startTimeUTC
-      ).toString();
+      ).toLocaleString();
     },
   },
   {
