@@ -26,7 +26,7 @@ const DeleteGame: React.FC<DeleteGameProps> = ({ id, onDelete }) => {
   return (
     <Modal
       trigger={
-        <Button size="icon" variant="destructive">
+        <Button size="icon" variant="outline">
           <IconTrash />
         </Button>
       }

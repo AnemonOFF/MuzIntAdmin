@@ -6,6 +6,7 @@ import { haveFeatureAccess } from "@/shared/lib/roleHelpers";
 import { Game } from "@/shared/types/game";
 import { UserRoles } from "@/shared/types/user";
 import { ModeratorsList } from "@/widgets/moderators";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 export interface GamePageProps {
@@ -13,15 +14,20 @@ export interface GamePageProps {
 }
 
 const GamePage: React.FC<GamePageProps> = ({ id }) => {
+  const router = useRouter();
   const { data: user, isSuccess } = useAuthQuery();
 
   return (
     <div className="space-y-5">
       <div className="flex gap-2 justify-between">
         <EditGameName id={id} />
-        <DeleteGame id={id} />
+        {isSuccess &&
+          haveFeatureAccess(
+            "admin.games.delete",
+            user.roles as UserRoles[]
+          ) && <DeleteGame id={id} onDelete={() => router.push("/games")} />}
       </div>
-      <div className="grid grid-cols-2 gap-5">
+      <div className="grid grid-cols-2 gap-5 max-lg:grid-cols-1 max-lg:grid-rows-2">
         <div className="space-y-5">
           {isSuccess &&
             haveFeatureAccess(
@@ -29,7 +35,7 @@ const GamePage: React.FC<GamePageProps> = ({ id }) => {
               user.roles as UserRoles[]
             ) && <ModeratorsList id={id} />}
         </div>
-        <div className=""></div>
+        <div className="max-lg:order-1"></div>
       </div>
     </div>
   );

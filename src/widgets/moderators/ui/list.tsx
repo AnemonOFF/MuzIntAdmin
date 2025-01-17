@@ -16,7 +16,7 @@ const GameModeratorsList: React.FC<GameModeratorsListProps> = ({ id }) => {
   if (!isSuccess) return <Loader text="Загрузка модераторов игры" />;
 
   return (
-    <div className="border rounded-md p-2">
+    <div className="border rounded-md p-2 space-y-2">
       {data.map((moderator) => (
         <div
           className="flex gap-2 justify-between items-center"
