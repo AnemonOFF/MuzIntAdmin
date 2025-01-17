@@ -12,7 +12,7 @@ import React, { useState } from "react";
 export interface GamesPageProps {}
 
 const GamesPage: React.FC<GamesPageProps> = ({}) => {
-  const [onlyRequested, setRequested] = useState(true);
+  const [onlyRequested, setRequested] = useState(false);
   const { data: user, isSuccess } = useAuthQuery();
 
   return (

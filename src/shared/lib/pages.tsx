@@ -26,12 +26,6 @@ export const pages: {
     icon: <IconTicket />,
   },
   {
-    url: "/gamerequests",
-    roles: [UserRoles.OWNER, UserRoles.ADMIN],
-    title: "Заявки создания",
-    icon: <IconGitPullRequest />,
-  },
-  {
     url: "/gamepacks",
     roles: [UserRoles.OWNER, UserRoles.ADMIN],
     title: "Пакеты игр",

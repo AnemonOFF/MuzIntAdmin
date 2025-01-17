@@ -1,25 +1,22 @@
 "use client";
 
-import { useDeleteGamePackMutation } from "@/entities/gamePack";
-import { GamePack } from "@/shared/types/gamePack";
+import { useDeleteGameMutation } from "@/entities/game";
+import { Game } from "@/shared/types/game";
 import { Button } from "@/shared/ui/button";
 import Modal from "@/shared/ui/modal";
 import { IconTrash } from "@tabler/icons-react";
 import React from "react";
 
-export interface DeleteGamePackProps {
-  gamePack: GamePack;
+export interface DeleteGameProps {
+  id: Game["id"];
   onDelete?: () => void;
 }
 
-const DeleteGamePack: React.FC<DeleteGamePackProps> = ({
-  gamePack,
-  onDelete,
-}) => {
-  const { mutate, isPending } = useDeleteGamePackMutation();
+const DeleteGame: React.FC<DeleteGameProps> = ({ id, onDelete }) => {
+  const { mutate, isPending } = useDeleteGameMutation();
 
-  const deleteGamePack = () => {
-    mutate(gamePack.id, {
+  const deleteGame = () => {
+    mutate(id, {
       onSuccess: () => {
         if (onDelete) onDelete();
       },
@@ -33,20 +30,17 @@ const DeleteGamePack: React.FC<DeleteGamePackProps> = ({
           <IconTrash />
         </Button>
       }
-      title={`Удалить ${gamePack.name}?`}
+      title={`Удалить игру?`}
       content={
         <div className="space-y-2">
+          <p>Вы уверены что хотите удалить игру?</p>
           <p>
-            Вы уверены что хотите удалить пак игры{" "}
-            <b>&quot;{gamePack.name}&quot;</b>
-          </p>
-          <p>
-            После удаления, все данные связанные с этим паком будут безвозвратно
+            После удаления, все данные связанные с этой игрой будут безвозвратно
             удалены, вы уверены, что хотите продолжить?
           </p>
           <Button
             variant="destructive"
-            onClick={deleteGamePack}
+            onClick={deleteGame}
             disabled={isPending}
             className="w-full"
           >
@@ -58,4 +52,4 @@ const DeleteGamePack: React.FC<DeleteGamePackProps> = ({
   );
 };
 
-export default React.memo(DeleteGamePack);
+export default React.memo(DeleteGame);

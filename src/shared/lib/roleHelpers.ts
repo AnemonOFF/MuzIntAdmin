@@ -10,6 +10,7 @@ export const featureAccess: {
   [key: string]: UserRoles[];
 } = {
   "admin.games.approving": [UserRoles.OWNER, UserRoles.ADMIN],
+  "admin.games.moderators": [UserRoles.OWNER, UserRoles.ADMIN],
 };
 
 export const haveFeatureAccess = (feature: string, roles: UserRoles[]) =>
