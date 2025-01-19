@@ -6,3 +6,5 @@ export { default as useGamesQuery } from "./useGamesQuery";
 export { default as useAddModeratorMutation } from "./useAddModeratorMutation";
 export { default as useDeleteModeratorMutation } from "./useDeleteModeratorMutation";
 export { default as useModeratorsQuery } from "./useModeratorsQuery";
+export { default as useGameInitStore } from "./useGameInitStore";
+export { default as useGameStatusMutation } from "./useGameStatusMutation";

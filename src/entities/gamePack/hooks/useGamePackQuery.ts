@@ -6,11 +6,12 @@ import { GamePack } from "@/shared/types/gamePack";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 
-const useGamePackQuery = (id: GamePack["id"]) => {
+const useGamePackQuery = (id: GamePack["id"], enabled?: boolean) => {
   const queryClient = useQueryClient();
   const result = useQuery({
     queryKey: gamePackKey.detail(id),
     queryFn: async () => await gamePacksController.getGamePack(id),
+    enabled: enabled,
   });
 
   useEffect(() => {
