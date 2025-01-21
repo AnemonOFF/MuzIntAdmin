@@ -16,6 +16,7 @@ import {
 import { Input } from "@/shared/ui/input";
 import { Button } from "@/shared/ui/button";
 import { Alert, AlertTitle } from "@/shared/ui/alert";
+import { toast } from "sonner";
 
 export interface RegisterFormProps {}
 
@@ -33,18 +34,32 @@ const RegisterForm: React.FC<RegisterFormProps> = ({}) => {
 
   useEffect(() => {
     if (isError && error) {
-      if (axios.isAxiosError(error)) {
-        if (error.response?.data.title) setError(error.response.data.title);
+      if (axios.isAxiosError(error) && error.response) {
+        const errors = Object.values(error.response.data.errors) as string[];
+        setError(errors[0]);
+      } else {
+        setError("Не удалось отправить запрос, попробуйте позже");
       }
+    } else {
+      setError("Не удалось отправить запрос, попробуйте позже");
     }
   }, [isError, error]);
 
   const onSubmit = (data: RegisterSchema) => {
     setError("");
-    mutate({
-      email: data.email,
-      password: data.password,
-    });
+    mutate(
+      {
+        email: data.email,
+        password: data.password,
+      },
+      {
+        onSuccess: () => {
+          toast.success("Вы зарегистрировались, можете входить в аккаунт", {
+            richColors: true,
+          });
+        },
+      }
+    );
   };
 
   return (

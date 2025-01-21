@@ -35,9 +35,14 @@ const LoginForm: React.FC<LoginFormProps> = ({}) => {
 
   useEffect(() => {
     if (isError && error) {
-      if (axios.isAxiosError(error)) {
-        if (error.response?.data.title) setError(error.response.data.title);
+      if (axios.isAxiosError(error) && error.response) {
+        const errors = Object.values(error.response.data.errors) as string[];
+        setError(errors[0]);
+      } else {
+        setError("Не удалось отправить запрос, попробуйте позже");
       }
+    } else {
+      setError("Не удалось отправить запрос, попробуйте позже");
     }
   }, [isError, error]);
 
@@ -51,7 +56,7 @@ const LoginForm: React.FC<LoginFormProps> = ({}) => {
       {
         onSuccess: () => {
           const redirectTo = params.get("redirectTo");
-          router.push(redirectTo ?? "/dashboard");
+          router.push(redirectTo ?? "/games");
         },
       }
     );

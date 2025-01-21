@@ -51,16 +51,32 @@ const CreateGamePack: React.FC<CreateGamePackProps> = ({}) => {
   });
 
   useEffect(() => {
-    if (createError && axios.isAxiosError(createError)) {
-      if (createError.response?.data.title)
-        setError(createError.response.data.title);
+    if (
+      createError &&
+      axios.isAxiosError(createError) &&
+      createError.response
+    ) {
+      const errors = Object.values(
+        createError.response.data.errors
+      ) as string[];
+      setError(errors[0]);
+    } else {
+      setError("Не удалось отправить запрос, попробуйте позже");
     }
   }, [createError]);
 
   useEffect(() => {
-    if (uploadError && axios.isAxiosError(uploadError)) {
-      if (uploadError.response?.data.title)
-        setError(uploadError.response.data.title);
+    if (
+      uploadError &&
+      axios.isAxiosError(uploadError) &&
+      uploadError.response
+    ) {
+      const errors = Object.values(
+        uploadError.response.data.errors
+      ) as string[];
+      setError(errors[0]);
+    } else {
+      setError("Не удалось отправить запрос, попробуйте позже");
     }
   }, [uploadError]);
 

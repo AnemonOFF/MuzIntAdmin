@@ -15,7 +15,7 @@ export const pages: {
 }[] = [
   {
     url: "/dashboard",
-    roles: [UserRoles.ADMIN, UserRoles.MODERATOR, UserRoles.OWNER],
+    roles: [],
     title: "Dashboard",
     icon: <IconLayoutDashboardFilled />,
   },

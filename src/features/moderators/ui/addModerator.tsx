@@ -28,8 +28,11 @@ const AddModarator: React.FC<AddModeratorProps> = ({ gameId }) => {
         onSuccess: () => setAddId(""),
         onError: (error) => {
           if (axios.isAxiosError(error)) {
-            if (error.response?.data.title) {
-              toast.error(error.response.data.title, {
+            if (error.response) {
+              const errors = Object.values(
+                error.response.data.errors
+              ) as string[];
+              toast.error(errors[0], {
                 richColors: true,
                 duration: 15000,
               });
