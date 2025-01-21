@@ -40,8 +40,6 @@ const RegisterForm: React.FC<RegisterFormProps> = ({}) => {
       } else {
         setError("Не удалось отправить запрос, попробуйте позже");
       }
-    } else {
-      setError("Не удалось отправить запрос, попробуйте позже");
     }
   }, [isError, error]);
 
