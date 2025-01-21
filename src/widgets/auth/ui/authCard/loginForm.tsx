@@ -41,8 +41,6 @@ const LoginForm: React.FC<LoginFormProps> = ({}) => {
       } else {
         setError("Не удалось отправить запрос, попробуйте позже");
       }
-    } else {
-      setError("Не удалось отправить запрос, попробуйте позже");
     }
   }, [isError, error]);
 

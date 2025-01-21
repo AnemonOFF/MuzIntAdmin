@@ -45,11 +45,13 @@ const CreateGame: React.FC<AddGameProps> = ({}) => {
   });
 
   useEffect(() => {
-    if (error && axios.isAxiosError(error) && error.response) {
-      const errors = Object.values(error.response.data.errors) as string[];
-      setError(errors[0]);
-    } else {
-      setError("Не удалось отправить запрос, попробуйте позже");
+    if (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        const errors = Object.values(error.response.data.errors) as string[];
+        setError(errors[0]);
+      } else {
+        setError("Не удалось отправить запрос, попробуйте позже");
+      }
     }
   }, [error]);
 
