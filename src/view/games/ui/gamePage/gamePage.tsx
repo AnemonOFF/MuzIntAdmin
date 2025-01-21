@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import GamePageContent from "./gamePageContent";
 import Loader from "@/shared/ui/loader";
-import { useGameStore } from "@/entities/game";
+import { ShareGameModal, useGameStore } from "@/entities/game";
 
 export interface GamePageProps {
   id: Game["id"];
@@ -31,6 +31,7 @@ const GamePage: React.FC<GamePageProps> = ({ id }) => {
               "admin.games.delete",
               user.roles as UserRoles[]
             ) && <DeleteGame id={id} onDelete={() => router.push("/games")} />}
+          <ShareGameModal id={id} />
         </div>
         {isSuccess ? (
           <GamePageContent gameId={id} user={user} />

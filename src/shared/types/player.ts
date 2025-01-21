@@ -4,7 +4,7 @@ export type Player = {
   id: number;
   name: string;
   playArea: string;
-  tours: PlayerTour[];
+  playerTours: PlayerTour[];
 };
 
 export type PlayerTour = {

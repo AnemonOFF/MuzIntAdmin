@@ -24,6 +24,9 @@ export const columns: ColumnDef<Game>[] = [
   {
     accessorKey: "endedTimeUTC",
     header: "Завершилось",
+    cell: ({ row }) => {
+      return row.original.endedTimeUTC?.toLocaleString();
+    },
   },
   {
     accessorKey: "status",

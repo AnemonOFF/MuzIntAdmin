@@ -25,7 +25,8 @@ const SetGameStatus: React.FC<SetGameStatusProps> = ({}) => {
     return (
       <div className="space-y-5">
         <StartTour />
-        <ResultGame />
+        {/* <ResultGame /> */}
+        <EndGame />
       </div>
     );
   if (status === GameStatus.Results) return <EndGame />;

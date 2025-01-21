@@ -11,13 +11,13 @@ import { API_RefreshToken, RefreshToken } from "../types/user";
 
 const mapRefreshToken = (apiResult: API_RefreshToken): RefreshToken => ({
   ...apiResult,
-  expiredDateTime: new Date(apiResult.expiredDateTime),
+  expiredDateTime: new Date(apiResult.expiredDateTime + "Z"),
 });
 
 const mapGamePack = (apiResult: API_GamePack): GamePack => ({
   ...apiResult,
-  createdDateTime: new Date(apiResult.createdDateTime),
-  updatedDateTime: new Date(apiResult.updatedDateTime),
+  createdDateTime: new Date(apiResult.createdDateTime + "Z"),
+  updatedDateTime: new Date(apiResult.updatedDateTime + "Z"),
 });
 
 const mapSimpleGamePack = (apiResult: API_SimpleGamePack): SimpleGamePack =>
@@ -29,12 +29,12 @@ const mapFullGamePack = (apiResult: API_FullGamePack): FullGamePack =>
 const mapGame = (apiResult: API_Game): Game => ({
   ...apiResult,
   endedTimeUTC: apiResult.endedTimeUTC
-    ? new Date(apiResult.endedTimeUTC)
+    ? new Date(apiResult.endedTimeUTC + "Z")
     : undefined,
   startedTimeUTC: apiResult.startedTimeUTC
-    ? new Date(apiResult.startedTimeUTC)
+    ? new Date(apiResult.startedTimeUTC + "Z")
     : undefined,
-  startTimeUTC: new Date(apiResult.startTimeUTC),
+  startTimeUTC: new Date(apiResult.startTimeUTC + "Z"),
 });
 
 export const apiMapper = {
