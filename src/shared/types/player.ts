@@ -7,6 +7,14 @@ export type Player = {
   playerTours: PlayerTour[];
 };
 
+export type PlayerWithPoints = {
+  id: Player["id"];
+  name: string;
+  playArea: string;
+  points: number;
+  extraPoints: number;
+};
+
 export type PlayerTour = {
   id: number;
   tourId: Tour["id"];

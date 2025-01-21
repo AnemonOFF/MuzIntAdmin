@@ -6,7 +6,7 @@ import { haveFeatureAccess } from "@/shared/lib/roleHelpers";
 import { Game } from "@/shared/types/game";
 import { User, UserRoles } from "@/shared/types/user";
 import { ModeratorsList } from "@/widgets/moderators";
-import { PlayersTable } from "@/widgets/players";
+import { PlayersData, PlayersTable } from "@/widgets/players";
 import React from "react";
 
 export interface RealTimeContentProps {
@@ -29,7 +29,8 @@ const GamePageContent: React.FC<RealTimeContentProps> = ({ user, gameId }) => {
         </div>
         <div className="space-y-2">
           <p className="text-center">Игроки</p>
-          <PlayersTable />
+          <PlayersData />
+          {/* <PlayersTable /> */}
         </div>
       </div>
       <div className="max-lg:order-1 space-y-5">
