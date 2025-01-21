@@ -7,12 +7,14 @@ export type Player = {
   playerTours: PlayerTour[];
 };
 
-export type PlayerWithPoints = {
+export type PlayerWithScore = {
   id: Player["id"];
   name: string;
   playArea: string;
   points: number;
   extraPoints: number;
+  totalPoints: number;
+  time: number;
 };
 
 export type PlayerTour = {
@@ -21,6 +23,7 @@ export type PlayerTour = {
   points: number;
   extraPoints: number;
   isAnswered: boolean;
+  answerTimeSpan: string;
   answers: Answer[];
 };
 

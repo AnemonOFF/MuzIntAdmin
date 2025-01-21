@@ -1,12 +1,14 @@
 "use client";
 
-import { PlayerWithPoints } from "@/shared/types/player";
+import { PlayerWithScore } from "@/shared/types/player";
 import React from "react";
 import { resultColumns } from "./columns";
 import {
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
+  SortingState,
   useReactTable,
 } from "@tanstack/react-table";
 import {
@@ -21,15 +23,21 @@ import { Button } from "@/shared/ui/button";
 import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 
 export interface ResultDataTableProps {
-  data: PlayerWithPoints[];
+  data: PlayerWithScore[];
 }
 
 const ResultDataTable: React.FC<ResultDataTableProps> = ({ data }) => {
+  const [sorting, setSorting] = React.useState<SortingState>([]);
   const table = useReactTable({
     data,
     columns: resultColumns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    onSortingChange: setSorting,
+    state: {
+      sorting,
+    },
   });
   const currentPage = table.getState().pagination.pageIndex + 1;
   const lastPage = table.getPageCount();

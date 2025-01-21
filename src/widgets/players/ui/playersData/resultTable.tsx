@@ -2,8 +2,8 @@
 
 import { useGameStore } from "@/entities/game";
 import { Tour } from "@/shared/types/gamePack";
-import { PlayerWithPoints } from "@/shared/types/player";
-import React from "react";
+import { PlayerWithScore } from "@/shared/types/player";
+import React, { useMemo } from "react";
 import ResultDataTable from "./resultDataTable";
 
 export interface ResultTableProps {
@@ -13,28 +13,51 @@ export interface ResultTableProps {
 const ResultTable: React.FC<ResultTableProps> = ({ tourId }) => {
   const players = useGameStore((state) => state.players);
 
-  const playersWithPoints: PlayerWithPoints[] = players.map((p) => {
-    let points = 0;
-    let extraPoints = 0;
-    if (tourId) {
-      const tour = p.playerTours.find((t) => t.tourId === tourId);
-      points = tour?.points ?? 0;
-      extraPoints = tour?.extraPoints ?? 0;
-    } else {
-      points = p.playerTours.reduce((sum, t) => sum + t.points, 0);
-      extraPoints = p.playerTours.reduce((sum, t) => sum + t.extraPoints, 0);
-    }
-    console.log(p, points, extraPoints);
-    return {
-      id: p.id,
-      name: p.name,
-      playArea: p.playArea,
-      points: points,
-      extraPoints: extraPoints,
-    };
-  });
+  const playersWithScore: PlayerWithScore[] = useMemo(
+    () =>
+      players.map((p) => {
+        let points = 0;
+        let extraPoints = 0;
+        let time = 0;
+        if (tourId) {
+          const tour = p.playerTours.find((t) => t.tourId === tourId);
+          points = tour?.points ?? 0;
+          extraPoints = tour?.extraPoints ?? 0;
+          time =
+            tour?.answerTimeSpan
+              .split(":")
+              .map((v) => parseInt(v))
+              .reduceRight((sum, v, i) => sum + v * 60 ** i, 0) ?? 0;
+        } else {
+          points = p.playerTours.reduce((sum, t) => sum + t.points, 0);
+          extraPoints = p.playerTours.reduce(
+            (sum, t) => sum + t.extraPoints,
+            0
+          );
+          time = p.playerTours.reduce(
+            (sum, t) =>
+              sum +
+              t.answerTimeSpan
+                .split(":")
+                .map((v) => parseInt(v))
+                .reduceRight((sum, v, i) => sum + v * 60 ** i, 0),
+            0
+          );
+        }
+        return {
+          id: p.id,
+          name: p.name,
+          playArea: p.playArea,
+          points: points,
+          extraPoints: extraPoints,
+          totalPoints: points + extraPoints,
+          time: time,
+        };
+      }),
+    [players, tourId]
+  );
 
-  return <ResultDataTable data={playersWithPoints} />;
+  return <ResultDataTable data={playersWithScore} />;
 };
 
 export default React.memo(ResultTable);

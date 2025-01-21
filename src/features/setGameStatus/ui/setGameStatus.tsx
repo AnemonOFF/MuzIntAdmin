@@ -7,7 +7,6 @@ import React from "react";
 import StartTour from "./startTour";
 import ResultTour from "./resultTour";
 import EndGame from "./endGame";
-import ResultGame from "./resultGame";
 
 export interface SetGameStatusProps {}
 
