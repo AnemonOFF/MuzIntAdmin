@@ -21,6 +21,10 @@ export const metadata: Metadata = {
     default: "МузИнт - музыкальная интуиция",
   },
   description: "Игра - музыкальная интуиция",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default function RootLayout({
