@@ -3,3 +3,4 @@ export { default as useDeleteGamePackMutation } from "./useDeleteGamePackMutatio
 export { default as useGamePackQuery } from "./useGamePackQuery";
 export { default as useGamePacksQuery } from "./useGamePacksQuery";
 export { default as useUploadGamePackMutation } from "./useUploadGamePackMutation";
+export { default as useUpdateGamePackMutation } from "./useUpdateGamePackMutation";

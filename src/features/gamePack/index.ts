@@ -1,3 +1,3 @@
 export * from "./ui/createGamePack";
-export * from "./ui/editor";
 export { default as DeleteGamePack } from "./ui/deleteGamePack";
+export { default as EditGamePackName } from "./ui/gamePackName";

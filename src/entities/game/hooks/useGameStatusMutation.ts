@@ -1,7 +1,7 @@
 import { gamesController } from "@/shared/api/client";
 import { gameKey } from "@/shared/lib/queryKeyFactory";
 import { Game, GameStatus } from "@/shared/types/game";
-import { Tour } from "@/shared/types/gamePack";
+import { Tour } from "@/shared/types/tour";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const useGameStatusMutation = () => {

@@ -1,7 +1,12 @@
 "use client";
 
 import { gamePacksController } from "@/shared/api/client";
-import { blockKey, gamePackKey, tourKey } from "@/shared/lib/queryKeyFactory";
+import {
+  blockKey,
+  gamePackKey,
+  questionKey,
+  tourKey,
+} from "@/shared/lib/queryKeyFactory";
 import { GamePack } from "@/shared/types/gamePack";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
@@ -25,6 +30,10 @@ const useGamePackQuery = (id: GamePack["id"], enabled?: boolean) => {
       queryClient.setQueryData(blockKey.tour(tour.id), tour.blocks);
       tour.blocks.forEach((block) => {
         queryClient.setQueryData(blockKey.detail(block.id), block);
+        queryClient.setQueryData(questionKey.block(block.id), block.questions);
+        block.questions.forEach((question) => {
+          queryClient.setQueryData(questionKey.detail(question.id), question);
+        });
       });
     });
   }, [result.data, queryClient]);

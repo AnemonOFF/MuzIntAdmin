@@ -1,6 +1,6 @@
 import { toursController } from "@/shared/api/client";
 import { tourKey } from "@/shared/lib/queryKeyFactory";
-import { Tour } from "@/shared/types/gamePack";
+import { Tour } from "@/shared/types/tour";
 import { useQuery } from "@tanstack/react-query";
 
 const useTourQuery = (id: Tour["id"], enabled?: boolean) => {

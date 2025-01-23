@@ -1,5 +1,5 @@
 import { Game, GameStatus } from "@/shared/types/game";
-import { Tour } from "@/shared/types/gamePack";
+import { Tour } from "@/shared/types/tour";
 import { Player } from "@/shared/types/player";
 import { HubConnection } from "@microsoft/signalr";
 import { create } from "zustand";

@@ -13,6 +13,7 @@ import {
   Drawer,
   DrawerContent,
   DrawerDescription,
+  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
@@ -22,6 +23,7 @@ import { useMediaQuery } from "../hooks/useMediaQuery";
 export interface ModalProps {
   trigger: React.ReactNode;
   content: React.ReactNode;
+  footer?: React.ReactNode;
   title?: React.ReactNode;
   description?: React.ReactNode;
   open?: boolean;
@@ -30,6 +32,7 @@ export interface ModalProps {
 
 const Modal: React.FC<ModalProps> = ({
   content,
+  footer,
   trigger,
   title,
   description,
@@ -56,6 +59,7 @@ const Modal: React.FC<ModalProps> = ({
             </DialogHeader>
           )}
           {content}
+          {footer && <div className="mt-5">{footer}</div>}
         </DialogContent>
       </Dialog>
     );
@@ -77,6 +81,7 @@ const Modal: React.FC<ModalProps> = ({
           </DrawerHeader>
         )}
         <div className="p-5">{content}</div>
+        {footer && <DrawerFooter>{footer}</DrawerFooter>}
       </DrawerContent>
     </Drawer>
   );

@@ -1,5 +1,8 @@
+import { Block } from "../types/block";
 import { Game } from "../types/game";
-import { Block, GamePack, Tour } from "../types/gamePack";
+import { GamePack } from "../types/gamePack";
+import { Question } from "../types/question";
+import { Tour } from "../types/tour";
 import { User } from "../types/user";
 
 export const userKeys = {
@@ -52,4 +55,14 @@ export const gameKey = {
   detail: (id: Game["id"]) => [...gameKey.details(), { id: id }] as const,
   moderators: (id: Game["id"]) =>
     [...gameKey.detail(id), "moderators"] as const,
+};
+
+export const questionKey = {
+  all: ["questions"] as const,
+  list: () => [...questionKey.all, "list"] as const,
+  block: (blockId: Block["id"]) =>
+    [...questionKey.list(), { blockId: blockId }] as const,
+  details: () => [...questionKey.all, "detail"] as const,
+  detail: (id: Question["id"]) =>
+    [...questionKey.details(), { id: id }] as const,
 };

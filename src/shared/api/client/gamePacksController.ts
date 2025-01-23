@@ -5,6 +5,7 @@ import {
   API_SimpleGamePack,
   CreateGamePackRequest,
   GamePack,
+  UpdateGamePackRequest,
 } from "@/shared/types/gamePack";
 import { apiMapper } from "@/shared/lib/mapping";
 
@@ -42,12 +43,24 @@ const uploadGamePack = async (name: string, file: File) => {
   return apiMapper.mapFullGamePack(response.data);
 };
 
+const updateGamePack = async (
+  id: GamePack["id"],
+  data: UpdateGamePackRequest
+) => {
+  const response = await apiClient.put<API_FullGamePack>(
+    `/gamepacks/${id}`,
+    data
+  );
+  return apiMapper.mapFullGamePack(response.data);
+};
+
 const gamePacksController = {
   getGamePacks,
   getGamePack,
   createGamePack,
   deleteGamePack,
   uploadGamePack,
+  updateGamePack,
 };
 
 export default gamePacksController;
