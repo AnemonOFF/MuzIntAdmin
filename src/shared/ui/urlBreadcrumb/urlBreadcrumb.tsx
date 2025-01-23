@@ -11,6 +11,7 @@ import {
   BreadcrumbSeparator,
 } from "../breadcrumb";
 import { cn } from "@/shared/lib/utils";
+import Link from "next/link";
 
 export interface URLBreadcrumbProps {}
 
@@ -26,8 +27,8 @@ const URLBreadcrumb: React.FC<URLBreadcrumbProps> = ({}) => {
       {i === breadcrumbs.length - 1 ? (
         <BreadcrumbPage>{breadcrumb.title}</BreadcrumbPage>
       ) : (
-        <BreadcrumbLink href={breadcrumb.url}>
-          {breadcrumb.title}
+        <BreadcrumbLink asChild>
+          <Link href={breadcrumb.url}>{breadcrumb.title}</Link>
         </BreadcrumbLink>
       )}
     </BreadcrumbItem>
