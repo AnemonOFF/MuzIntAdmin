@@ -1,4 +1,5 @@
-import { GamePack, Tour } from "./gamePack";
+import { GamePack } from "./gamePack";
+import { Tour } from "./tour";
 
 export type API_Game = {
   id: number;

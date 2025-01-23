@@ -8,7 +8,7 @@ import { apiClient } from "./axios";
 import { Collection, Pagination } from "@/shared/types/generic";
 import { apiMapper } from "@/shared/lib/mapping";
 import { User } from "@/shared/types/user";
-import { Tour } from "@/shared/types/gamePack";
+import { Tour } from "@/shared/types/tour";
 
 const getGame = async (id: Game["id"]) => {
   const response = await apiClient.get<API_Game>(`/games/${id}`);

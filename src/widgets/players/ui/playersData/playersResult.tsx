@@ -2,7 +2,7 @@
 
 import { useGameQuery, useGameStore } from "@/entities/game";
 import { useGamePackQuery } from "@/entities/gamePack";
-import { Tour } from "@/shared/types/gamePack";
+import { Tour } from "@/shared/types/tour";
 import Loader from "@/shared/ui/loader";
 import {
   Select,

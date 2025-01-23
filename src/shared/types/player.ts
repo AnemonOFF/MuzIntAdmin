@@ -1,4 +1,5 @@
-import { Question, Tour } from "./gamePack";
+import { Question } from "./question";
+import { Tour } from "./tour";
 
 export type Player = {
   id: number;

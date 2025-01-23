@@ -1,6 +1,5 @@
 import { UserRoles } from "@/shared/types/user";
 import {
-  IconGitPullRequest,
   IconLayoutDashboardFilled,
   IconPackages,
   IconTicket,

@@ -1,7 +1,7 @@
 "use client";
 
 import { useGameStore } from "@/entities/game";
-import { Tour } from "@/shared/types/gamePack";
+import { Tour } from "@/shared/types/tour";
 import { PlayerWithScore } from "@/shared/types/player";
 import React, { useMemo } from "react";
 import ResultDataTable from "./resultDataTable";
