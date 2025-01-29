@@ -37,7 +37,9 @@ const LoginForm: React.FC<LoginFormProps> = ({}) => {
     if (isError && error) {
       if (axios.isAxiosError(error) && error.response) {
         const errors = Object.values(error.response.data.errors) as string[];
-        setError(errors[0]);
+        if (Object.keys(error.response.data.errors)[0] === "0")
+          setError(error.response.data.title);
+        else setError(errors[0]);
       } else {
         setError("Не удалось отправить запрос, попробуйте позже");
       }
