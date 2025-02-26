@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/ui/select";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import ResultTable from "./resultTable";
 
 export interface PlayersResultProps {}
@@ -29,6 +29,11 @@ const PlayersResult: React.FC<PlayersResultProps> = ({}) => {
   );
   const [tourId, setTourId] = useState<Tour["id"]>();
   // const [blockId, setBlockId] = useState<Block["id"]>();
+
+  const notIntoResultTourIds = useMemo(
+    () => gamePack?.tours.filter((t) => !t.takeIntoResult).map((t) => t.id),
+    [gamePack]
+  );
 
   const selectTour = (value: string) => {
     // setBlockId(undefined);
@@ -78,7 +83,10 @@ const PlayersResult: React.FC<PlayersResultProps> = ({}) => {
         </SelectContent>
       </Select> */}
       </div>
-      <ResultTable tourId={tourId} />
+      <ResultTable
+        tourId={tourId}
+        notIntoResultTourIds={notIntoResultTourIds!}
+      />
     </div>
   );
 };

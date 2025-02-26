@@ -8,9 +8,13 @@ import ResultDataTable from "./resultDataTable";
 
 export interface ResultTableProps {
   tourId?: Tour["id"];
+  notIntoResultTourIds: Tour["id"][];
 }
 
-const ResultTable: React.FC<ResultTableProps> = ({ tourId }) => {
+const ResultTable: React.FC<ResultTableProps> = ({
+  tourId,
+  notIntoResultTourIds,
+}) => {
   const players = useGameStore((state) => state.players);
 
   const playersWithScore: PlayerWithScore[] = useMemo(
@@ -29,12 +33,15 @@ const ResultTable: React.FC<ResultTableProps> = ({ tourId }) => {
               .map((v) => parseInt(v))
               .reduceRight((sum, v, i) => sum + v * 60 ** i, 0) ?? 0;
         } else {
-          points = p.playerTours.reduce((sum, t) => sum + t.points, 0);
-          extraPoints = p.playerTours.reduce(
+          const validPlayerTours = p.playerTours.filter(
+            (pt) => !notIntoResultTourIds.includes(pt.tourId)
+          );
+          points = validPlayerTours.reduce((sum, t) => sum + t.points, 0);
+          extraPoints = validPlayerTours.reduce(
             (sum, t) => sum + t.extraPoints,
             0
           );
-          time = p.playerTours.reduce(
+          time = validPlayerTours.reduce(
             (sum, t) =>
               sum +
               t.answerTimeSpan
@@ -54,7 +61,7 @@ const ResultTable: React.FC<ResultTableProps> = ({ tourId }) => {
           time: time,
         };
       }),
-    [players, tourId]
+    [players, tourId, notIntoResultTourIds]
   );
 
   return <ResultDataTable data={playersWithScore} />;

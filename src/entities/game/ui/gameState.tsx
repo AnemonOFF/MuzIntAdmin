@@ -27,10 +27,15 @@ const GameState: React.FC<GameStateProps> = ({}) => {
       <div className="flex gap-2 items-center">
         <h2>Статус:</h2> <span>{statusLabels[status]}</span>
       </div>
-      {status in [GameStatus.TourInProgress, GameStatus.TourResults] &&
+      {[GameStatus.TourInProgress, GameStatus.TourResults].includes(status) &&
       currentTourId ? (
         isTourLoaded ? (
-          <p>{tour.name}</p>
+          <div className="space-y-2">
+            <p>Текущий тур - {tour.name}</p>
+            {!tour.takeIntoResult && (
+              <p>Результаты этого тура не идут в общий зачёт</p>
+            )}
+          </div>
         ) : (
           <Skeleton className="h-10 w-full" />
         )

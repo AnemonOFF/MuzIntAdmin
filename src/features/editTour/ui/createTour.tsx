@@ -21,6 +21,7 @@ const CreateTour: React.FC<CreateTourProps> = ({ gamePackId, order }) => {
         gamePackId: gamePackId,
         name: "Новый тур",
         order: order ?? 1,
+        takeIntoResult: true,
       },
       {
         onError: () => toast.error("Не удалось создать новый тур"),

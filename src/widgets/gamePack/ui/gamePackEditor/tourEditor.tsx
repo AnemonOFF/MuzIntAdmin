@@ -5,7 +5,11 @@ import { Tour } from "@/shared/types/tour";
 import Loader from "@/shared/ui/loader";
 import React from "react";
 import BlockEditor from "./blockEditor";
-import { DeleteTour, EditTourName } from "@/features/editTour";
+import {
+  DeleteTour,
+  EditTourIntoResult,
+  EditTourName,
+} from "@/features/editTour";
 import { AddBlock } from "@/features/editBlock";
 import { GamePack } from "@/shared/types/gamePack";
 
@@ -25,6 +29,7 @@ const TourEditor: React.FC<TourEditorProps> = ({ id, gamePackId }) => {
         <DeleteTour id={id} gamePackId={gamePackId} />
         <EditTourName id={id} />
       </div>
+      <EditTourIntoResult id={id} />
       {tour.blocks.map((block) => (
         <BlockEditor id={block.id} key={`block_${block.id}`} />
       ))}
