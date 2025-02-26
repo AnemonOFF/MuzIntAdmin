@@ -3,6 +3,7 @@
 import { useGameStatusMutation, useGameStore } from "@/entities/game";
 import { GameStatus } from "@/shared/types/game";
 import { Button } from "@/shared/ui/button";
+import ConfirmModal from "@/shared/ui/confirmModal";
 import React from "react";
 
 export interface EndGameProps {}
@@ -19,9 +20,11 @@ const EndGame: React.FC<EndGameProps> = ({}) => {
   };
 
   return (
-    <Button onClick={endResult} disabled={isPending}>
-      Завершить игру
-    </Button>
+    <ConfirmModal
+      text="Вы уверены что хотите завершить игру?"
+      trigger={<Button disabled={isPending}>Завершить игру</Button>}
+      onConfirm={endResult}
+    />
   );
 };
 
