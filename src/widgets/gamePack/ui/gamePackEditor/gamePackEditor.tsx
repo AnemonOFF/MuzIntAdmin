@@ -29,7 +29,7 @@ const GamePackEditor: React.FC<GamePackEditorProps> = ({ id }) => {
           onDelete={() => router.push("/gamepacks")}
         />
       </div>
-      {data.tours.length > 0 && (
+      {data.tours.length > 0 ? (
         <Tabs
           className="items-center"
           defaultValue={data.tours[0].id.toString()}
@@ -61,6 +61,14 @@ const GamePackEditor: React.FC<GamePackEditorProps> = ({ id }) => {
             </TabsContent>
           ))}
         </Tabs>
+      ) : (
+        <CreateTour
+          gamePackId={id}
+          order={
+            data.tours.reduce((max, v) => (v.order > max ? v.order : max), 0) +
+            1
+          }
+        />
       )}
     </div>
   );
