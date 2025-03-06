@@ -35,6 +35,7 @@ export enum GameStatus {
   TourResults = "TourResults",
   Results = "Results",
   Ended = "Ended",
+  TourEnd = "TourEnd",
 }
 
 export type CreateGameRequest = {

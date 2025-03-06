@@ -7,6 +7,7 @@ import React from "react";
 import StartTour from "./startTour";
 import ResultTour from "./resultTour";
 import EndGame from "./endGame";
+import EndTour from "./endTour";
 
 export interface SetGameStatusProps {}
 
@@ -19,7 +20,8 @@ const SetGameStatus: React.FC<SetGameStatusProps> = ({}) => {
   );
 
   if (status === GameStatus.WaitForStart) return <StartTour />;
-  if (status === GameStatus.TourInProgress) return <ResultTour />;
+  if (status === GameStatus.TourInProgress) return <EndTour />;
+  if (status === GameStatus.TourEnd) return <ResultTour />;
   if (status === GameStatus.TourResults)
     return (
       <div className="space-y-5">

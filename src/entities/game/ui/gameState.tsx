@@ -27,8 +27,11 @@ const GameState: React.FC<GameStateProps> = ({}) => {
       <div className="flex gap-2 items-center">
         <h2>Статус:</h2> <span>{statusLabels[status]}</span>
       </div>
-      {[GameStatus.TourInProgress, GameStatus.TourResults].includes(status) &&
-      currentTourId ? (
+      {[
+        GameStatus.TourInProgress,
+        GameStatus.TourEnd,
+        GameStatus.TourResults,
+      ].includes(status) && currentTourId ? (
         isTourLoaded ? (
           <div className="space-y-2">
             <p>Текущий тур - {tour.name}</p>
