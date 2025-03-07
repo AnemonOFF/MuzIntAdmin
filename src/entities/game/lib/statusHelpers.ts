@@ -6,4 +6,5 @@ export const statusLabels: { [key in GameStatus]: string } = {
   TourResults: "Результаты тура",
   Results: "Результаты игры",
   Ended: "Игра завершена",
+  TourEnd: "Тур завершён",
 };
