@@ -8,6 +8,7 @@ import {
   UpdateGamePackRequest,
 } from "@/shared/types/gamePack";
 import { apiMapper } from "@/shared/lib/mapping";
+import { API_Presentation } from "@/shared/types/presentation";
 
 const getGamePacks = async () => {
   const response = await apiClient.get<Collection<API_SimpleGamePack>>(
@@ -54,6 +55,13 @@ const updateGamePack = async (
   return apiMapper.mapFullGamePack(response.data);
 };
 
+const getGamePackPresentation = async (gamePackId: GamePack["id"]) => {
+  const response = await apiClient.get<API_Presentation>(
+    `/gamepacks/${gamePackId}/presentation`
+  );
+  return apiMapper.mapPresentation(response.data);
+};
+
 const gamePacksController = {
   getGamePacks,
   getGamePack,
@@ -61,6 +69,7 @@ const gamePacksController = {
   deleteGamePack,
   uploadGamePack,
   updateGamePack,
+  getGamePackPresentation,
 };
 
 export default gamePacksController;

@@ -7,6 +7,8 @@ import {
   GamePack,
   SimpleGamePack,
 } from "../types/gamePack";
+import { API_Presentation, Presentation } from "../types/presentation";
+import { API_Slide, Slide } from "../types/slide";
 import { API_RefreshToken, RefreshToken } from "../types/user";
 
 const mapRefreshToken = (apiResult: API_RefreshToken): RefreshToken => ({
@@ -37,10 +39,25 @@ const mapGame = (apiResult: API_Game): Game => ({
   startTimeUTC: new Date(apiResult.startTimeUTC + "Z"),
 });
 
+const mapSlide = (apiResult: API_Slide): Slide => ({
+  ...apiResult,
+  createdDateTime: new Date(apiResult.createdDateTime + "Z"),
+  updatedDateTime: new Date(apiResult.updatedDateTime + "Z"),
+});
+
+const mapPresentation = (apiResult: API_Presentation): Presentation => ({
+  ...apiResult,
+  slides: apiResult.slides.map((s) => mapSlide(s)),
+  createdDateTime: new Date(apiResult.createdDateTime + "Z"),
+  updatedDateTime: new Date(apiResult.updatedDateTime + "Z"),
+});
+
 export const apiMapper = {
   mapRefreshToken,
   mapGamePack,
   mapSimpleGamePack,
   mapFullGamePack,
   mapGame,
+  mapSlide,
+  mapPresentation,
 };

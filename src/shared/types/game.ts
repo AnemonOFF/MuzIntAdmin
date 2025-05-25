@@ -1,4 +1,5 @@
 import { GamePack } from "./gamePack";
+import { Presentation } from "./presentation";
 import { Tour } from "./tour";
 
 export type API_Game = {
@@ -8,6 +9,7 @@ export type API_Game = {
   isStarted: boolean;
   isEnded: boolean;
   status: GameStatus;
+  presentationState: GamePresentationState;
   startTimeUTC: string;
   startedTimeUTC?: string;
   endedTimeUTC?: string;
@@ -22,6 +24,7 @@ export type Game = {
   isStarted: boolean;
   isEnded: boolean;
   status: GameStatus;
+  presentationState: GamePresentationState;
   startTimeUTC: Date;
   startedTimeUTC?: Date;
   endedTimeUTC?: Date;
@@ -42,4 +45,8 @@ export type CreateGameRequest = {
   gamePackId: GamePack["id"];
   startTimeUTC: Date;
   name: string;
+};
+
+export type GamePresentationState = {
+  currentSlideId: Presentation["id"];
 };

@@ -2,6 +2,7 @@ import {
   API_Game,
   CreateGameRequest,
   Game,
+  GamePresentationState,
   GameStatus,
 } from "@/shared/types/game";
 import { apiClient } from "./axios";
@@ -9,6 +10,7 @@ import { Collection, Pagination } from "@/shared/types/generic";
 import { apiMapper } from "@/shared/lib/mapping";
 import { User } from "@/shared/types/user";
 import { Tour } from "@/shared/types/tour";
+import { API_Presentation } from "@/shared/types/presentation";
 
 const getGame = async (id: Game["id"]) => {
   const response = await apiClient.get<API_Game>(`/games/${id}`);
@@ -82,6 +84,27 @@ const changeStatus = async (
   return apiMapper.mapGame(response.data);
 };
 
+const getGamePresentation = async (gameId: Game["id"]) => {
+  const response = await apiClient.get<API_Presentation>(
+    `/games/${gameId}/presentation`
+  );
+  return apiMapper.mapPresentation(response.data);
+};
+
+const getGamePresentationState = async (gameId: Game["id"]) => {
+  const response = await apiClient.get<GamePresentationState>(
+    `/games/${gameId}/presentation/state`
+  );
+  return response.data;
+};
+
+const proceedGamePresentation = async (gameId: Game["id"]) => {
+  const response = await apiClient.post<GamePresentationState>(
+    `/games/${gameId}/presentation/next`
+  );
+  return response.data;
+};
+
 const gamesController = {
   getGame,
   getGames,
@@ -92,6 +115,9 @@ const gamesController = {
   addModerator,
   deleteModerator,
   changeStatus,
+  getGamePresentation,
+  getGamePresentationState,
+  proceedGamePresentation,
 };
 
 export default gamesController;

@@ -1,7 +1,9 @@
 import { Block } from "../types/block";
 import { Game } from "../types/game";
 import { GamePack } from "../types/gamePack";
+import { Presentation } from "../types/presentation";
 import { Question } from "../types/question";
+import { Slide } from "../types/slide";
 import { Tour } from "../types/tour";
 import { User } from "../types/user";
 
@@ -24,6 +26,8 @@ export const gamePackKey = {
   details: () => [...gamePackKey.all, "detail"] as const,
   detail: (id: GamePack["id"]) =>
     [...gamePackKey.details(), { id: id }] as const,
+  presentation: (id: GamePack["id"]) =>
+    [...gamePackKey.detail(id), "presentation"] as const,
 };
 
 export const tourKey = {
@@ -55,6 +59,10 @@ export const gameKey = {
   detail: (id: Game["id"]) => [...gameKey.details(), { id: id }] as const,
   moderators: (id: Game["id"]) =>
     [...gameKey.detail(id), "moderators"] as const,
+  presentation: (id: Game["id"]) =>
+    [...gameKey.detail(id), "presentation"] as const,
+  presentationState: (id: Game["id"]) =>
+    [...gameKey.presentation(id), "state"] as const,
 };
 
 export const questionKey = {
@@ -65,4 +73,15 @@ export const questionKey = {
   details: () => [...questionKey.all, "detail"] as const,
   detail: (id: Question["id"]) =>
     [...questionKey.details(), { id: id }] as const,
+};
+
+export const presentationKey = {
+  all: ["presentations"] as const,
+  details: () => [...presentationKey.all, "detail"] as const,
+  detail: (id: Presentation["id"]) =>
+    [...presentationKey.details(), { id: id }] as const,
+  slides: (id: Presentation["id"]) =>
+    [...presentationKey.detail(id), "slides"] as const,
+  slide: (presentationId: Presentation["id"], slideId: Slide["id"]) =>
+    [...presentationKey.slides(presentationId), { id: slideId }] as const,
 };
