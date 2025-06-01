@@ -7,7 +7,7 @@ export type API_Slide = {
   type: SlideType;
   soundFileName?: string;
   order: number;
-  action: SlideAction;
+  action?: SlideAction;
   createdDateTime: string;
   updatedDateTime: string;
 };
@@ -18,7 +18,7 @@ export type Slide = {
   type: SlideType;
   soundFileName?: string;
   order: number;
-  action: SlideAction;
+  action?: SlideAction;
   createdDateTime: Date;
   updatedDateTime: Date;
 };

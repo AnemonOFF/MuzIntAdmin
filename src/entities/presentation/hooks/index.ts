@@ -5,5 +5,6 @@ export { default as useCreateSlideMutation } from "./useCreateSlideMutation";
 export { default as useUpdateSlideContentMutation } from "./useUpdateSlideContentMutation";
 export { default as useUpdateSlideAudioMutation } from "./useUpdateSlideAudioMutation";
 export { default as useUpdateSlideActionMutation } from "./useUpdateSlideActionMutation";
+export { default as useDeleteSlideActionMutation } from "./useDeleteSlideActionMutation";
 export { default as useDeleteSlideMutation } from "./useDeleteSlideMutation";
 export { default as useReorderSlidesMutation } from "./useReorderSlidesMutation";

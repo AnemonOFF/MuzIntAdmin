@@ -66,14 +66,24 @@ const updateSlideContent = async (
 const updateSlideAudio = async (
   presentationId: Presentation["id"],
   slideId: Slide["id"],
-  audio: File | Blob
+  audio?: File | Blob
 ) => {
   const formData = new FormData();
-  formData.append("audio", audio);
+  if (audio) formData.append("audio", audio);
 
   const response = await apiClient.put<API_Slide>(
     `/presentation/${presentationId}/slides/${slideId}/audio`,
     formData
+  );
+  return apiMapper.mapSlide(response.data);
+};
+
+const deleteSlideAction = async (
+  presentationId: Presentation["id"],
+  slideId: Slide["id"]
+) => {
+  const response = await apiClient.delete<API_Slide>(
+    `/presentation/${presentationId}/slides/${slideId}/action`
   );
   return apiMapper.mapSlide(response.data);
 };
@@ -116,6 +126,7 @@ const presentationController = {
   createPresentation,
   deletePresentation,
   createSlide,
+  deleteSlideAction,
   updateSlideAction,
   updateSlideAudio,
   updateSlideContent,

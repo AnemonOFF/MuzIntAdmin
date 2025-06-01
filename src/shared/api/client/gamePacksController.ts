@@ -56,10 +56,10 @@ const updateGamePack = async (
 };
 
 const getGamePackPresentation = async (gamePackId: GamePack["id"]) => {
-  const response = await apiClient.get<API_Presentation>(
+  const response = await apiClient.get<API_Presentation | null>(
     `/gamepacks/${gamePackId}/presentation`
   );
-  return apiMapper.mapPresentation(response.data);
+  return response.data ? apiMapper.mapPresentation(response.data) : null;
 };
 
 const gamePacksController = {

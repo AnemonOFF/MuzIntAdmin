@@ -1,6 +1,6 @@
 "use client";
 
-import { presentationController } from "@/shared/api/client";
+import { gamePacksController } from "@/shared/api/client";
 import { gamePackKey, presentationKey } from "@/shared/lib/queryKeyFactory";
 import { GamePack } from "@/shared/types/gamePack";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -13,12 +13,12 @@ const useGamePackPresentationQuery = (
   const queryClient = useQueryClient();
   const response = useQuery({
     queryKey: gamePackKey.presentation(id),
-    queryFn: async () => await presentationController.getPresentation(id),
+    queryFn: async () => await gamePacksController.getGamePackPresentation(id),
     enabled: enabled,
   });
 
   useEffect(() => {
-    if (!response.isSuccess) return;
+    if (!response.isSuccess || !response.data) return;
     queryClient.setQueryData(
       presentationKey.detail(response.data.id),
       response.data

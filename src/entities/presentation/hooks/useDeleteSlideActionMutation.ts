@@ -6,18 +6,16 @@ import { Presentation } from "@/shared/types/presentation";
 import { Slide } from "@/shared/types/slide";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-const useUpdateSlideAudioMutation = () => {
+const useDeleteSlideMutation = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (data: {
       presentationId: Presentation["id"];
       slideId: Slide["id"];
-      audio?: File | Blob;
     }) =>
-      await presentationController.updateSlideAudio(
+      await presentationController.deleteSlideAction(
         data.presentationId,
-        data.slideId,
-        data.audio
+        data.slideId
       ),
     onSuccess: (_, { presentationId }) => {
       queryClient.invalidateQueries({
@@ -27,4 +25,4 @@ const useUpdateSlideAudioMutation = () => {
   });
 };
 
-export default useUpdateSlideAudioMutation;
+export default useDeleteSlideMutation;
