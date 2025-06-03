@@ -10,6 +10,8 @@ import { Button } from "@/shared/ui/button";
 import { Skeleton } from "@/shared/ui/skeleton";
 import { GamePackEditor } from "@/widgets/gamePack";
 import { PresentationEditor } from "@/widgets/presentation";
+import { IconEyeCheck } from "@tabler/icons-react";
+import Link from "next/link";
 import React, { useState } from "react";
 
 export interface GamePackPageProps {
@@ -39,10 +41,20 @@ const GamePackPage: React.FC<GamePackPageProps> = ({ id }) => {
                   Редактировать пак игры
                 </Button>
                 {!!presentation && (
-                  <DeletePresentation
-                    presentationId={presentation.id}
-                    onDelete={() => setCurrentEditor("gamePack")}
-                  />
+                  <>
+                    <DeletePresentation
+                      presentationId={presentation.id}
+                      onDelete={() => setCurrentEditor("gamePack")}
+                    />
+                    <Button asChild size="icon">
+                      <Link
+                        href={`/presentations/${presentation.id}/viewer`}
+                        target="_blank"
+                      >
+                        <IconEyeCheck />
+                      </Link>
+                    </Button>
+                  </>
                 )}
               </>
             ) : !presentation ? (
