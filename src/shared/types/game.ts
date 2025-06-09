@@ -1,3 +1,4 @@
+import { Block } from "./block";
 import { GamePack } from "./gamePack";
 import { Presentation } from "./presentation";
 import { Tour } from "./tour";
@@ -9,6 +10,8 @@ export type API_Game = {
   isStarted: boolean;
   isEnded: boolean;
   status: GameStatus;
+  isRandomAnswers: boolean;
+  isPresentationMode: boolean;
   presentationState: GamePresentationState;
   startTimeUTC: string;
   startedTimeUTC?: string;
@@ -24,6 +27,8 @@ export type Game = {
   isStarted: boolean;
   isEnded: boolean;
   status: GameStatus;
+  isRandomAnswers: boolean;
+  isPresentationMode: boolean;
   presentationState: GamePresentationState;
   startTimeUTC: Date;
   startedTimeUTC?: Date;
@@ -49,4 +54,8 @@ export type CreateGameRequest = {
 
 export type GamePresentationState = {
   currentSlideId: Presentation["id"];
+};
+
+export type AnswersOrder = {
+  blocks: Block[];
 };

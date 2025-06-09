@@ -8,9 +8,11 @@ import {
 import {
   API_Slide,
   SetSlideActionRequest,
+  SetSlideDynamicContentRequest,
   SetSlideOrderRequest,
   Slide,
 } from "@/shared/types/slide";
+import { Question } from "@/shared/types/question";
 
 const getPresentation = async (id: Presentation["id"]) => {
   const response = await apiClient.get<API_Presentation>(`/presentation/${id}`);
@@ -121,6 +123,53 @@ const reorderSlides = async (
   return apiMapper.mapPresentation(response.data);
 };
 
+const updateSlideDynamicContent = async (
+  presentationId: Presentation["id"],
+  slideId: Slide["id"],
+  data: SetSlideDynamicContentRequest
+) => {
+  const response = await apiClient.put<API_Slide>(
+    `/presentation/${presentationId}/slides/${slideId}/dynamic`,
+    data
+  );
+  return apiMapper.mapSlide(response.data);
+};
+
+const assignSlideToQuestion = async (
+  presentationId: Presentation["id"],
+  slideId: Slide["id"],
+  questionId: Question["id"]
+) => {
+  const response = await apiClient.put<API_Slide>(
+    `/presentation/${presentationId}/slides/${slideId}/assign`,
+    {
+      questionId: questionId,
+    }
+  );
+
+  return apiMapper.mapSlide(response.data);
+};
+
+const unassignSlideFromQuestion = async (
+  presentationId: Presentation["id"],
+  slideId: Slide["id"]
+) => {
+  const response = await apiClient.delete<API_Slide>(
+    `/presentation/${presentationId}/slides/${slideId}/unassign`
+  );
+  return apiMapper.mapSlide(response.data);
+};
+
+const deleteSlideDynamicContent = async (
+  presentationId: Presentation["id"],
+  slideId: Slide["id"]
+) => {
+  const response = await apiClient.delete<API_Slide>(
+    `/presentation/${presentationId}/slides/${slideId}/dynamic`
+  );
+  return apiMapper.mapSlide(response.data);
+};
+
 const presentationController = {
   getPresentation,
   createPresentation,
@@ -132,6 +181,10 @@ const presentationController = {
   updateSlideContent,
   deleteSlide,
   reorderSlides,
+  updateSlideDynamicContent,
+  assignSlideToQuestion,
+  unassignSlideFromQuestion,
+  deleteSlideDynamicContent,
 };
 
 export default presentationController;

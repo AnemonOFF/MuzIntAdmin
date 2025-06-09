@@ -11,3 +11,6 @@ export { default as useGameStatusMutation } from "./useGameStatusMutation";
 export { default as useGamePresentationQuery } from "./useGamePresentationQuery";
 export { default as useGamePresentationStateQuery } from "./useGamePresentationStateQuery";
 export { default as useGameProceedPresentationMutation } from "./useGameProceedPresentationMutation";
+export { default as useAnswersOrderQuery } from "./useAnswersOrderQuery";
+export { default as useTogglePresentationModeMutation } from "./useTogglePresentationModeMutation";
+export { default as useToggleRandomMutation } from "./useToggleRandomMutation";

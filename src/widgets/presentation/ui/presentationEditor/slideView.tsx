@@ -1,6 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
-import { Slide, SlideType } from "@/shared/types/slide";
+import {
+  Slide,
+  SlideDynamicContentType,
+  SlideType,
+} from "@/shared/types/slide";
 import React from "react";
+import WinnerPrePanel from "./panels/winnerPrePanel";
+import TopPlayersPrePanel from "./panels/topPlayersPrePanel";
 
 export interface SlideViewProps {
   slide?: Slide;
@@ -8,7 +14,7 @@ export interface SlideViewProps {
 
 const SlideView: React.FC<SlideViewProps> = ({ slide }) => {
   return (
-    <div className="aspect-video w-full h-full relative bg-muted">
+    <div className="aspect-video relative bg-muted">
       {!slide ? (
         <div className="w-full h-full flex items-center justify-center">
           <span>Выберите слайд</span>
@@ -27,6 +33,14 @@ const SlideView: React.FC<SlideViewProps> = ({ slide }) => {
           className="w-full h-full object-fill"
         />
       )}
+
+      {slide?.dynamicContent &&
+        (slide.dynamicContent.dynamicContentType ===
+        SlideDynamicContentType.Winner ? (
+          <WinnerPrePanel />
+        ) : (
+          <TopPlayersPrePanel />
+        ))}
     </div>
   );
 };

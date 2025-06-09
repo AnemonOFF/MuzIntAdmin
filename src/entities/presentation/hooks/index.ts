@@ -8,3 +8,7 @@ export { default as useUpdateSlideActionMutation } from "./useUpdateSlideActionM
 export { default as useDeleteSlideActionMutation } from "./useDeleteSlideActionMutation";
 export { default as useDeleteSlideMutation } from "./useDeleteSlideMutation";
 export { default as useReorderSlidesMutation } from "./useReorderSlidesMutation";
+export { default as useAssignSlideToQuestionMutation } from "./useAssignSlideToQuestionMutation";
+export { default as useUnassignSlideToQuestionMutation } from "./useUnassignSlideFromQuestionMutation";
+export { default as useDeleteSlideDynamicContentMutation } from "./useDeleteSlideDynamicContentMutation";
+export { default as useUpdateSlideDynamicContentMutation } from "./useUpdateSlideDynamicContentMutation";

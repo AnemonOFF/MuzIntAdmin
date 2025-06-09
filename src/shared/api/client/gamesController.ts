@@ -1,4 +1,5 @@
 import {
+  AnswersOrder,
   API_Game,
   CreateGameRequest,
   Game,
@@ -105,6 +106,36 @@ const proceedGamePresentation = async (gameId: Game["id"]) => {
   return response.data;
 };
 
+const toggleRandom = async (gameId: Game["id"], isRandom: boolean) => {
+  const response = await apiClient.put<API_Game>(`/games/${gameId}/random`, {
+    isRandomAnswers: isRandom,
+  });
+
+  return apiMapper.mapGame(response.data);
+};
+
+const togglePresentationMode = async (
+  gameId: Game["id"],
+  isPresentationMode: boolean
+) => {
+  const response = await apiClient.put<API_Game>(
+    `/games/${gameId}/presentationmode`,
+    {
+      isPresentationMode: isPresentationMode,
+    }
+  );
+
+  return apiMapper.mapGame(response.data);
+};
+
+const getAnswersOrder = async (gameId: Game["id"]) => {
+  const response = await apiClient.get<AnswersOrder>(
+    `/games/${gameId}/answers`
+  );
+
+  return response.data;
+};
+
 const gamesController = {
   getGame,
   getGames,
@@ -118,6 +149,9 @@ const gamesController = {
   getGamePresentation,
   getGamePresentationState,
   proceedGamePresentation,
+  toggleRandom,
+  togglePresentationMode,
+  getAnswersOrder,
 };
 
 export default gamesController;

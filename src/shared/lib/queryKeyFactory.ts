@@ -57,6 +57,7 @@ export const gameKey = {
   ],
   details: () => [...gameKey.all, "detail"] as const,
   detail: (id: Game["id"]) => [...gameKey.details(), { id: id }] as const,
+  answersOrder: (id: Game["id"]) => [...gameKey.detail(id), "answersOrder"],
   moderators: (id: Game["id"]) =>
     [...gameKey.detail(id), "moderators"] as const,
   presentation: (id: Game["id"]) =>

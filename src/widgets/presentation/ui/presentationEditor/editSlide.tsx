@@ -3,9 +3,11 @@
 import {
   DeleteSlide,
   SetSlideAction,
+  SetSlideDynamicContent,
   UpdateSlideAudio,
   UpdateSlideContent,
 } from "@/features/presentation";
+import AssignSlideToQuestion from "@/features/presentation/ui/assignSlideToQuestion";
 import { GameStatus } from "@/shared/types/game";
 import { GamePack } from "@/shared/types/gamePack";
 import { Presentation } from "@/shared/types/presentation";
@@ -30,7 +32,7 @@ const EditSlide: React.FC<EditSlideProps> = ({
   if (!slide) return <p className="text-center">Выберите слайд</p>;
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-5 overflow-y-auto">
       <div className="flex gap-2 items-center justify-between">
         <span>Слайд {slide.order}</span>
         <DeleteSlide
@@ -64,6 +66,24 @@ const EditSlide: React.FC<EditSlideProps> = ({
           presentationId={presentationId}
           slide={slide}
           slideStatus={gameStatus ?? GameStatus.WaitForStart}
+          key={slide.id}
+        />
+      </div>
+      <div className="space-y-2">
+        <p>Динамический контент:</p>
+        <SetSlideDynamicContent
+          gamePackId={gamePackId}
+          presentationId={presentationId}
+          slide={slide}
+          key={slide.id}
+        />
+      </div>
+      <div className="space-y-2">
+        <p>Привязка к вопросу:</p>
+        <AssignSlideToQuestion
+          gamePackId={gamePackId}
+          presentationId={presentationId}
+          slide={slide}
           key={slide.id}
         />
       </div>
