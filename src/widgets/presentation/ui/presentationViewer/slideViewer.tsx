@@ -4,6 +4,7 @@
 import { useLoadFile } from "@/entities/file";
 import { Slide, SlideType } from "@/shared/types/slide";
 import React, { useState, useEffect, useRef } from "react";
+import SlideDynamicContent from "./slideDynamicContent";
 
 export interface SlideViewerProps {
   slide: Slide;
@@ -62,7 +63,7 @@ const SlideViewer: React.FC<SlideViewerProps> = ({
   }, [loadState, onLoad, slide.id]);
 
   return (
-    <div className="w-full h-full max-w-[100vw] max-h-screen aspect-video mx-auto place-self-center">
+    <div className="relative w-full h-full max-w-[100vw] max-h-screen aspect-video mx-auto place-self-center">
       {slide.type === SlideType.Image ? (
         <img
           src={slide.fileName}
@@ -92,6 +93,7 @@ const SlideViewer: React.FC<SlideViewerProps> = ({
           controls={false}
         />
       )}
+      {slide.dynamicContent && <SlideDynamicContent slide={slide} />}
     </div>
   );
 };

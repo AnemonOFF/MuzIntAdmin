@@ -1,8 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 import { cn } from "@/shared/lib/utils";
-import { Slide, SlideType } from "@/shared/types/slide";
+import {
+  Slide,
+  SlideDynamicContentType,
+  SlideType,
+} from "@/shared/types/slide";
 import { Button } from "@/shared/ui/button";
 import React from "react";
+import PreviewPanel from "./panels/previewPanel";
 
 export interface SlidePreviewProps {
   slide: Slide;
@@ -39,6 +44,13 @@ const SlidePreview: React.FC<SlidePreviewProps> = ({
           className="w-full h-full object-fill rounded"
         />
       )}
+      {slide?.dynamicContent &&
+        (slide.dynamicContent.dynamicContentType ===
+        SlideDynamicContentType.Winner ? (
+          <PreviewPanel text="Победитель" />
+        ) : (
+          <PreviewPanel text="Топ игроки" />
+        ))}
       <div className="absolute rounded w-full h-full left-0 top-0 bg-foreground/50 font-bold opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
         <span className="">{slide.order}</span>
       </div>
