@@ -12,25 +12,30 @@ import EndTour from "./endTour";
 export interface SetGameStatusProps {}
 
 const SetGameStatus: React.FC<SetGameStatusProps> = ({}) => {
-  const { status } = useGameStore(
+  const { status, presentationMode } = useGameStore(
     useShallow((state) => ({
       status: state.status,
+      presentationMode: state.presentationMode,
       gameId: state.id,
     }))
   );
 
-  if (status === GameStatus.WaitForStart) return <StartTour />;
-  if (status === GameStatus.TourInProgress) return <EndTour />;
-  if (status === GameStatus.TourEnd) return <ResultTour />;
+  if (status === GameStatus.WaitForStart)
+    return <StartTour disabled={presentationMode} />;
+  if (status === GameStatus.TourInProgress)
+    return <EndTour disabled={presentationMode} />;
+  if (status === GameStatus.TourEnd)
+    return <ResultTour disabled={presentationMode} />;
   if (status === GameStatus.TourResults)
     return (
       <div className="space-y-5">
-        <StartTour />
-        {/* <ResultGame /> */}
-        <EndGame />
+        <StartTour disabled={presentationMode} />
+        {/* <ResultGame disabled={presentationMode} /> */}
+        <EndGame disabled={presentationMode} />
       </div>
     );
-  if (status === GameStatus.Results) return <EndGame />;
+  if (status === GameStatus.Results)
+    return <EndGame disabled={presentationMode} />;
   return null;
 };
 

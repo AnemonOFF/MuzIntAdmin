@@ -4,15 +4,23 @@ import { usePresentationQuery } from "@/entities/presentation";
 import { Presentation } from "@/shared/types/presentation";
 import { Slide } from "@/shared/types/slide";
 import Loader from "@/shared/ui/loader";
-import React, { useCallback, useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import SlideViewer from "./slideViewer";
 import { cn } from "@/shared/lib/utils";
 import { Game } from "@/shared/types/game";
 import {
+  useGamePresentationStateQuery,
   useGameProceedPresentationMutation,
   useGameQuery,
 } from "@/entities/game";
 import { useGamePackQuery } from "@/entities/gamePack";
+import PresentationLoader from "./presentationLoader";
 
 export interface PresentationViewerProps {
   presentationId: Presentation["id"];
@@ -41,14 +49,63 @@ const PresentationViewer: React.FC<PresentationViewerProps> = ({
     useGameProceedPresentationMutation();
   const { data: presentation, isSuccess: isPresentationLoaded } =
     usePresentationQuery(presentationId);
+  const {
+    data: gamePresentationState,
+    isSuccess: isGamePresentationStateLoaded,
+    isLoading: isGamePresentationStateLoading,
+  } = useGamePresentationStateQuery(gameId!, !!gameId);
+  const presentationStateRef = useRef({
+    isSuccess: isGamePresentationStateLoaded,
+    isLoading: isGamePresentationStateLoading,
+    isProceedingPresentation: isProceedingPresentation,
+  });
+  presentationStateRef.current.isLoading = isGamePresentationStateLoading;
+  presentationStateRef.current.isSuccess = isGamePresentationStateLoaded;
+  presentationStateRef.current.isProceedingPresentation =
+    isProceedingPresentation;
   const [loadedSlides, setLoadedSlides] = useState<Set<Slide["id"]>>(new Set());
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
-  const orderedSlides = presentation?.slides.sort((a, b) => a.order - b.order);
+  const orderedSlides = useMemo(
+    () => presentation?.slides.sort((a, b) => a.order - b.order),
+    [presentation?.slides]
+  );
 
   const onSlideLoad = useCallback(
     (id: Slide["id"]) => setLoadedSlides((prev) => new Set(prev.add(id))),
     []
   );
+
+  const nextSlide = useCallback(() => {
+    if (gameId) {
+      if (
+        presentationStateRef.current.isProceedingPresentation ||
+        presentationStateRef.current.isLoading ||
+        !presentationStateRef.current.isSuccess
+      ) {
+        return;
+      }
+      proceedPresentation(gameId);
+    } else {
+      let returnFlag = false;
+      setCurrentSlideIndex((prev) => {
+        returnFlag = !presentation || prev >= presentation.slides.length - 1;
+        return returnFlag ? prev : prev + 1;
+      });
+      if (returnFlag) return;
+    }
+  }, [presentation, proceedPresentation, gameId]);
+
+  useEffect(() => {
+    if (!gamePresentationState) return;
+    const newSlideId = gamePresentationState.currentSlideId;
+    const newSlideIndex = orderedSlides?.findIndex((s) => s.id === newSlideId);
+    if (!newSlideIndex) return;
+    setCurrentSlideIndex(newSlideIndex);
+  }, [gamePresentationState, orderedSlides]);
+
+  const previousSlide = useCallback(() => {
+    setCurrentSlideIndex((prev) => (prev > 0 ? prev - 1 : 0));
+  }, []);
 
   useEffect(() => {
     if (
@@ -60,14 +117,11 @@ const PresentationViewer: React.FC<PresentationViewerProps> = ({
     }
 
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft" && canGoBack) {
-        setCurrentSlideIndex((prev) => (prev > 0 ? prev - 1 : 0));
+      if (isProceedingPresentation) return;
+      if (e.key === "ArrowLeft" && canGoBack && !gameId) {
+        previousSlide();
       } else if (e.key === "ArrowRight" || e.key === " ") {
-        setCurrentSlideIndex((prev) =>
-          presentation && prev < presentation.slides.length - 1
-            ? prev + 1
-            : prev
-        );
+        nextSlide();
       }
     };
 
@@ -80,6 +134,9 @@ const PresentationViewer: React.FC<PresentationViewerProps> = ({
     presentation,
     gameId,
     isGamePackLoaded,
+    isProceedingPresentation,
+    previousSlide,
+    nextSlide,
   ]);
 
   if (!isPresentationLoaded || (!!gameId && !isGamePackLoaded)) {
@@ -124,6 +181,9 @@ const PresentationViewer: React.FC<PresentationViewerProps> = ({
           />
         </div>
       ))}
+      <PresentationLoader
+        isLoading={isProceedingPresentation || isGamePresentationStateLoading}
+      />
     </>
   );
 };

@@ -10,6 +10,8 @@ type GameState = {
   status: GameStatus;
   currentTourId?: Tour["id"];
   players: Player[];
+  presentationMode: boolean;
+  randomMode: boolean;
   connection?: HubConnection;
 };
 
@@ -22,6 +24,8 @@ type GameAction = {
   removePlayer: (playerId: Player["id"]) => void;
   updatePlayer: (player: Player) => void;
   setConnection: (connection: HubConnection) => void;
+  setPresentationMode: (presentationMode: boolean) => void;
+  setRandom: (random: boolean) => void;
 };
 
 type GameStoreType = GameState & GameAction;
@@ -33,6 +37,8 @@ export const useGameStore = create<GameStoreType>()(
     currentTourId: undefined,
     players: [],
     connection: undefined,
+    presentationMode: false,
+    randomMode: false,
 
     reset: (id) =>
       set(() => ({
@@ -60,5 +66,8 @@ export const useGameStore = create<GameStoreType>()(
       set((state) => ({
         players: [player, ...state.players.filter((p) => p.id !== player.id)],
       })),
+    setPresentationMode: (presentationMode) =>
+      set(() => ({ presentationMode: presentationMode })),
+    setRandom: (random) => set(() => ({ randomMode: random })),
   }))
 );

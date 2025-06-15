@@ -18,9 +18,11 @@ import {
 import { Skeleton } from "@/shared/ui/skeleton";
 import React, { useState } from "react";
 
-export interface StartTourProps {}
+export interface StartTourProps {
+  disabled: boolean;
+}
 
-const StartTour: React.FC<StartTourProps> = ({}) => {
+const StartTour: React.FC<StartTourProps> = ({ disabled }) => {
   const [newTourId, setTourId] = useState<number>();
   const { mutate, isPending } = useGameStatusMutation();
   const gameId = useGameStore((state) => state.id);
@@ -50,7 +52,7 @@ const StartTour: React.FC<StartTourProps> = ({}) => {
     <div className="flex gap-2 items-center">
       <Select
         onValueChange={(v) => setTourId(parseInt(v))}
-        disabled={isPending}
+        disabled={disabled || isPending}
       >
         <SelectTrigger>
           <SelectValue placeholder="Выберите тур" />
@@ -63,7 +65,10 @@ const StartTour: React.FC<StartTourProps> = ({}) => {
           ))}
         </SelectContent>
       </Select>
-      <Button onClick={startTour} disabled={!newTourId || isPending}>
+      <Button
+        onClick={startTour}
+        disabled={disabled || !newTourId || isPending}
+      >
         Начать тур
       </Button>
     </div>

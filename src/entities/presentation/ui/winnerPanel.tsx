@@ -1,5 +1,5 @@
 import { PlayerWithScore } from "@/shared/types/player";
-import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
+import { Card, CardContent } from "@/shared/ui/card";
 import React from "react";
 
 export interface WinnerPanelProps {

@@ -5,9 +5,11 @@ import { GameStatus } from "@/shared/types/game";
 import { Button } from "@/shared/ui/button";
 import React from "react";
 
-export interface TourResultProps {}
+export interface TourResultProps {
+  disabled: boolean;
+}
 
-const TourResult: React.FC<TourResultProps> = ({}) => {
+const TourResult: React.FC<TourResultProps> = ({ disabled }) => {
   const { mutate, isPending } = useGameStatusMutation();
   const gameId = useGameStore((state) => state.id);
 
@@ -19,7 +21,7 @@ const TourResult: React.FC<TourResultProps> = ({}) => {
   };
 
   return (
-    <Button onClick={setStatus} disabled={isPending}>
+    <Button onClick={setStatus} disabled={disabled || isPending}>
       Показать результаты
     </Button>
   );

@@ -12,17 +12,27 @@ import { Button } from "@/shared/ui/button";
 
 const useGameInitStore = (gameId: Game["id"]) => {
   const connection = useGameStore((state) => state.connection);
-  const { setPlayers, setStatus, reset, setTourId, addPlayer, updatePlayer } =
-    useGameStore(
-      useShallow((state) => ({
-        setPlayers: state.setPlayers,
-        setStatus: state.setStatus,
-        setTourId: state.setTourId,
-        reset: state.reset,
-        addPlayer: state.addPlayer,
-        updatePlayer: state.updatePlayer,
-      }))
-    );
+  const {
+    setPlayers,
+    setStatus,
+    reset,
+    setTourId,
+    addPlayer,
+    updatePlayer,
+    setPresentationMode,
+    setRandom,
+  } = useGameStore(
+    useShallow((state) => ({
+      setPlayers: state.setPlayers,
+      setStatus: state.setStatus,
+      setTourId: state.setTourId,
+      reset: state.reset,
+      addPlayer: state.addPlayer,
+      updatePlayer: state.updatePlayer,
+      setPresentationMode: state.setPresentationMode,
+      setRandom: state.setRandom,
+    }))
+  );
 
   useEffect(() => {
     reset(gameId);
@@ -38,6 +48,8 @@ const useGameInitStore = (gameId: Game["id"]) => {
           } else {
             setStatus(data.status);
             setTourId(data.currentTourId);
+            setPresentationMode(data.isPresentationMode);
+            setRandom(data.isRandomAnswers);
           }
         })
         .catch(() => {
@@ -68,7 +80,16 @@ const useGameInitStore = (gameId: Game["id"]) => {
 
     initStatus();
     initPlayers();
-  }, [gameId, connection, setStatus, setPlayers, setTourId, reset]);
+  }, [
+    gameId,
+    connection,
+    setStatus,
+    setPlayers,
+    setTourId,
+    reset,
+    setRandom,
+    setPresentationMode,
+  ]);
 
   useModeratorSignalREffect(
     "PlayerAdded",
@@ -91,6 +112,22 @@ const useGameInitStore = (gameId: Game["id"]) => {
     "PlayerUpdated",
     (data: Player) => {
       updatePlayer(data);
+    },
+    []
+  );
+
+  useModeratorSignalREffect(
+    "GamePresentationModeChanged",
+    (data: boolean) => {
+      setPresentationMode(data);
+    },
+    []
+  );
+
+  useModeratorSignalREffect(
+    "GameRandomChanged",
+    (data: boolean) => {
+      setRandom(data);
     },
     []
   );

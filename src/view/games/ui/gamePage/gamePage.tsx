@@ -10,7 +10,11 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import GamePageContent from "./gamePageContent";
 import Loader from "@/shared/ui/loader";
-import { ShareGameModal, useGameStore } from "@/entities/game";
+import {
+  GamePresentationLink,
+  ShareGameModal,
+  useGameStore,
+} from "@/entities/game";
 
 export interface GamePageProps {
   id: Game["id"];
@@ -26,6 +30,7 @@ const GamePage: React.FC<GamePageProps> = ({ id }) => {
       <div className="space-y-5">
         <div className="flex gap-2 justify-between">
           <EditGameName id={id} />
+          <GamePresentationLink gameId={id} />
           {isSuccess &&
             haveFeatureAccess(
               "admin.games.delete",

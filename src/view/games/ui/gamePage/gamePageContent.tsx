@@ -1,7 +1,11 @@
 "use client";
 
 import { GameState, useGameInitStore } from "@/entities/game";
-import { SetGameStatus } from "@/features/setGameStatus";
+import {
+  SetGamePresentationMode,
+  SetGameRandom,
+  SetGameStatus,
+} from "@/features/setGameStatus";
 import { haveFeatureAccess } from "@/shared/lib/roleHelpers";
 import { Game } from "@/shared/types/game";
 import { User, UserRoles } from "@/shared/types/user";
@@ -35,7 +39,9 @@ const GamePageContent: React.FC<RealTimeContentProps> = ({ user, gameId }) => {
       </div>
       <div className="max-lg:order-1 space-y-5">
         <GameState />
+        <SetGamePresentationMode />
         <SetGameStatus />
+        <SetGameRandom />
       </div>
     </div>
   );

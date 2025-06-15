@@ -6,9 +6,11 @@ import { Button } from "@/shared/ui/button";
 import Modal from "@/shared/ui/modal";
 import React, { useState } from "react";
 
-export interface EndTourProps {}
+export interface EndTourProps {
+  disabled: boolean;
+}
 
-const EndTour: React.FC<EndTourProps> = ({}) => {
+const EndTour: React.FC<EndTourProps> = ({ disabled }) => {
   const currentTourId = useGameStore((state) => state.currentTourId);
   const [open, setOpen] = useState(false);
   const { mutate, isPending } = useGameStatusMutation();
@@ -43,7 +45,7 @@ const EndTour: React.FC<EndTourProps> = ({}) => {
       open={open}
       onOpenChange={setOpen}
       trigger={
-        <Button onClick={verifyPlayers} disabled={isPending}>
+        <Button onClick={verifyPlayers} disabled={disabled || isPending}>
           Закрыть тур
         </Button>
       }
@@ -55,7 +57,7 @@ const EndTour: React.FC<EndTourProps> = ({}) => {
             уверены?
           </span>
           <div className="flex items-center justify-between gap-2">
-            <Button variant="outline" onClick={endTour}>
+            <Button variant="outline" onClick={endTour} disabled={disabled}>
               Закрыть
             </Button>
             <Button onClick={() => setOpen(false)}>Отмена</Button>
