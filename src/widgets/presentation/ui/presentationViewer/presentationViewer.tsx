@@ -54,21 +54,26 @@ const PresentationViewer: React.FC<PresentationViewerProps> = ({
     isSuccess: isGamePresentationStateLoaded,
     isLoading: isGamePresentationStateLoading,
   } = useGamePresentationStateQuery(gameId!, !!gameId);
-  const presentationStateRef = useRef({
-    isSuccess: isGamePresentationStateLoaded,
-    isLoading: isGamePresentationStateLoading,
-    isProceedingPresentation: isProceedingPresentation,
-  });
-  presentationStateRef.current.isLoading = isGamePresentationStateLoading;
-  presentationStateRef.current.isSuccess = isGamePresentationStateLoaded;
-  presentationStateRef.current.isProceedingPresentation =
-    isProceedingPresentation;
   const [loadedSlides, setLoadedSlides] = useState<Set<Slide["id"]>>(new Set());
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const orderedSlides = useMemo(
     () => presentation?.slides.sort((a, b) => a.order - b.order),
     [presentation?.slides]
   );
+
+  const presentationStateRef = useRef({
+    isSuccess: isGamePresentationStateLoaded,
+    isLoading: isGamePresentationStateLoading,
+    isProceedingPresentation: isProceedingPresentation,
+    currentSlide: orderedSlides ? orderedSlides[currentSlideIndex] : undefined,
+  });
+  presentationStateRef.current.isLoading = isGamePresentationStateLoading;
+  presentationStateRef.current.isSuccess = isGamePresentationStateLoaded;
+  presentationStateRef.current.isProceedingPresentation =
+    isProceedingPresentation;
+  presentationStateRef.current.currentSlide = orderedSlides
+    ? orderedSlides[currentSlideIndex]
+    : undefined;
 
   const onSlideLoad = useCallback(
     (id: Slide["id"]) => setLoadedSlides((prev) => new Set(prev.add(id))),
@@ -80,11 +85,15 @@ const PresentationViewer: React.FC<PresentationViewerProps> = ({
       if (
         presentationStateRef.current.isProceedingPresentation ||
         presentationStateRef.current.isLoading ||
-        !presentationStateRef.current.isSuccess
+        !presentationStateRef.current.isSuccess ||
+        !presentationStateRef.current.currentSlide
       ) {
         return;
       }
-      proceedPresentation(gameId);
+      proceedPresentation({
+        gameId: gameId,
+        currentSlideId: presentationStateRef.current.currentSlide.id,
+      });
     } else {
       let returnFlag = false;
       setCurrentSlideIndex((prev) => {
@@ -95,6 +104,10 @@ const PresentationViewer: React.FC<PresentationViewerProps> = ({
     }
   }, [presentation, proceedPresentation, gameId]);
 
+  const previousSlide = useCallback(() => {
+    setCurrentSlideIndex((prev) => (prev > 0 ? prev - 1 : 0));
+  }, []);
+
   useEffect(() => {
     if (!gamePresentationState) return;
     const newSlideId = gamePresentationState.currentSlideId;
@@ -102,10 +115,6 @@ const PresentationViewer: React.FC<PresentationViewerProps> = ({
     if (!newSlideIndex) return;
     setCurrentSlideIndex(newSlideIndex);
   }, [gamePresentationState, orderedSlides]);
-
-  const previousSlide = useCallback(() => {
-    setCurrentSlideIndex((prev) => (prev > 0 ? prev - 1 : 0));
-  }, []);
 
   useEffect(() => {
     if (

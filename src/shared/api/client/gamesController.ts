@@ -13,6 +13,7 @@ import { User } from "@/shared/types/user";
 import { Tour } from "@/shared/types/tour";
 import { API_Presentation } from "@/shared/types/presentation";
 import { Player } from "@/shared/types/player";
+import { Slide } from "@/shared/types/slide";
 
 const getGame = async (id: Game["id"]) => {
   const response = await apiClient.get<API_Game>(`/games/${id}`);
@@ -100,9 +101,12 @@ const getGamePresentationState = async (gameId: Game["id"]) => {
   return response.data;
 };
 
-const proceedGamePresentation = async (gameId: Game["id"]) => {
+const proceedGamePresentation = async (
+  gameId: Game["id"],
+  currentSlideId: Slide["id"]
+) => {
   const response = await apiClient.post<GamePresentationState>(
-    `/games/${gameId}/presentation/next`
+    `/games/${gameId}/presentation/next?currentSlideId=${currentSlideId}`
   );
   return response.data;
 };
