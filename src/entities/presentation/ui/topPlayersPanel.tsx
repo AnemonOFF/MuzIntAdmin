@@ -22,34 +22,38 @@ const TopPlayersPanel: React.FC<TopPlayersPanelProps> = ({
   title,
 }) => {
   return (
-    <Card className="absolute top-[10%] left-[10%] right-[10%] bottom-[10%]">
-      <CardHeader>
-        <CardTitle>{title ?? `Топ-${show}`}</CardTitle>
-      </CardHeader>
-      <CardContent className="">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Имя</TableHead>
-              <TableHead>Место</TableHead>
-              <TableHead>Баллы</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {players
-              .sort((a, b) => a.totalPoints - b.totalPoints)
-              .slice(0, show)
-              .map((player) => (
-                <TableRow key={player.id}>
-                  <TableCell>{player.name}</TableCell>
-                  <TableCell>{player.playArea}</TableCell>
-                  <TableCell>{player.totalPoints}</TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </CardContent>
-    </Card>
+    <div className="absolute top-0 left-0 right-0 bottom-0 p-5 flex items-center justify-center">
+      <Card className="w-max min-w-[50%] max-w-full max-h-full overflow-y-auto backdrop-blur-xl bg-background/80">
+        <CardHeader>
+          <CardTitle className="text-3xl">{title ?? `Топ-${show}`}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Table className="text-lg">
+            <TableHeader>
+              <TableRow>
+                <TableHead className="px-5">Имя</TableHead>
+                <TableHead className="px-5">Место</TableHead>
+                <TableHead className="px-5 text-right">Баллы</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {players
+                .sort((a, b) => b.totalPoints - a.totalPoints)
+                .slice(0, show)
+                .map((player) => (
+                  <TableRow key={player.id}>
+                    <TableCell className="px-5">{player.name}</TableCell>
+                    <TableCell className="px-5">{player.playArea}</TableCell>
+                    <TableCell className="px-5 text-right font-semibold">
+                      {player.totalPoints}
+                    </TableCell>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 

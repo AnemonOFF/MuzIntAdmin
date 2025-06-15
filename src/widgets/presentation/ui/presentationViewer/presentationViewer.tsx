@@ -7,16 +7,38 @@ import Loader from "@/shared/ui/loader";
 import React, { useCallback, useEffect, useState } from "react";
 import SlideViewer from "./slideViewer";
 import { cn } from "@/shared/lib/utils";
+import { Game } from "@/shared/types/game";
+import {
+  useGameProceedPresentationMutation,
+  useGameQuery,
+} from "@/entities/game";
+import { useGamePackQuery } from "@/entities/gamePack";
 
 export interface PresentationViewerProps {
   presentationId: Presentation["id"];
+  gameId?: Game["id"];
   canGoBack?: boolean;
 }
 
+/**
+ * При указаном gameId - параметр canGoBack всегда false
+ */
 const PresentationViewer: React.FC<PresentationViewerProps> = ({
   presentationId,
+  gameId,
   canGoBack = false,
 }) => {
+  const { data: game, isSuccess: isGameLoaded } = useGameQuery(
+    gameId!,
+    !!gameId
+  );
+  const { data: gamePack, isSuccess: isGamePackLoaded } = useGamePackQuery(
+    // @ts-expect-error on isGameLoaded, game won't be undefined
+    game?.gamePackId,
+    isGameLoaded && !!game
+  );
+  const { mutate: proceedPresentation, isPending: isProceedingPresentation } =
+    useGameProceedPresentationMutation();
   const { data: presentation, isSuccess: isPresentationLoaded } =
     usePresentationQuery(presentationId);
   const [loadedSlides, setLoadedSlides] = useState<Set<Slide["id"]>>(new Set());
@@ -31,7 +53,8 @@ const PresentationViewer: React.FC<PresentationViewerProps> = ({
   useEffect(() => {
     if (
       !isPresentationLoaded ||
-      loadedSlides.size !== presentation.slides.length
+      loadedSlides.size !== presentation.slides.length ||
+      (!!gameId && !isGamePackLoaded)
     ) {
       return;
     }
@@ -50,9 +73,16 @@ const PresentationViewer: React.FC<PresentationViewerProps> = ({
 
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
-  }, [canGoBack, isPresentationLoaded, loadedSlides.size, presentation]);
+  }, [
+    canGoBack,
+    isPresentationLoaded,
+    loadedSlides.size,
+    presentation,
+    gameId,
+    isGamePackLoaded,
+  ]);
 
-  if (!isPresentationLoaded) {
+  if (!isPresentationLoaded || (!!gameId && !isGamePackLoaded)) {
     return (
       <div className="h-full w-full flex items-center justify-center grow">
         <Loader text="Загрузка информации о презентации" />
@@ -89,6 +119,8 @@ const PresentationViewer: React.FC<PresentationViewerProps> = ({
             slide={slide}
             onLoad={onSlideLoad}
             isCurrent={currentSlideIndex === index}
+            gameId={gameId}
+            gamePack={gamePack}
           />
         </div>
       ))}

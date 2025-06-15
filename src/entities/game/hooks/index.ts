@@ -14,3 +14,4 @@ export { default as useGameProceedPresentationMutation } from "./useGameProceedP
 export { default as useAnswersOrderQuery } from "./useAnswersOrderQuery";
 export { default as useTogglePresentationModeMutation } from "./useTogglePresentationModeMutation";
 export { default as useToggleRandomMutation } from "./useToggleRandomMutation";
+export { default as useTopPlayersQuery } from "./useTopPlayersQuery";

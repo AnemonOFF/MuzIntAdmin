@@ -12,6 +12,7 @@ import { apiMapper } from "@/shared/lib/mapping";
 import { User } from "@/shared/types/user";
 import { Tour } from "@/shared/types/tour";
 import { API_Presentation } from "@/shared/types/presentation";
+import { Player } from "@/shared/types/player";
 
 const getGame = async (id: Game["id"]) => {
   const response = await apiClient.get<API_Game>(`/games/${id}`);
@@ -136,6 +137,25 @@ const getAnswersOrder = async (gameId: Game["id"]) => {
   return response.data;
 };
 
+const getTopPlayers = async (
+  gameId: Game["id"],
+  top: number,
+  tourId?: Tour["id"]
+) => {
+  const params: Record<string, string | number> = {
+    top: top,
+  };
+  if (tourId) params.tourId = tourId;
+  const response = await apiClient.get<Collection<Player>>(
+    `/games/${gameId}/top`,
+    {
+      params: params,
+    }
+  );
+
+  return response.data.items;
+};
+
 const gamesController = {
   getGame,
   getGames,
@@ -152,6 +172,7 @@ const gamesController = {
   toggleRandom,
   togglePresentationMode,
   getAnswersOrder,
+  getTopPlayers,
 };
 
 export default gamesController;

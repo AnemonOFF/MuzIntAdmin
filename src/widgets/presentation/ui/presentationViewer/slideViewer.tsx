@@ -5,17 +5,23 @@ import { useLoadFile } from "@/entities/file";
 import { Slide, SlideType } from "@/shared/types/slide";
 import React, { useState, useEffect, useRef } from "react";
 import SlideDynamicContent from "./slideDynamicContent";
+import { Game } from "@/shared/types/game";
+import { FullGamePack } from "@/shared/types/gamePack";
 
 export interface SlideViewerProps {
   slide: Slide;
   onLoad: (id: Slide["id"]) => void;
   isCurrent: boolean;
+  gameId?: Game["id"];
+  gamePack?: FullGamePack;
 }
 
 const SlideViewer: React.FC<SlideViewerProps> = ({
   onLoad,
   slide,
   isCurrent,
+  gameId,
+  gamePack,
 }) => {
   const [loadState, setLoadState] = useState({
     contentLoaded: false,
@@ -93,7 +99,14 @@ const SlideViewer: React.FC<SlideViewerProps> = ({
           controls={false}
         />
       )}
-      {slide.dynamicContent && <SlideDynamicContent slide={slide} />}
+      {slide.dynamicContent && (
+        <SlideDynamicContent
+          slide={slide}
+          show={isCurrent}
+          gameId={gameId}
+          gamePack={gamePack}
+        />
+      )}
     </div>
   );
 };

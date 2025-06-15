@@ -1,0 +1,1 @@
+export { calculatePlayerScore } from "./scoreHelper";

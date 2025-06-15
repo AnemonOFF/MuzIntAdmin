@@ -64,6 +64,11 @@ export const gameKey = {
     [...gameKey.detail(id), "presentation"] as const,
   presentationState: (id: Game["id"]) =>
     [...gameKey.presentation(id), "state"] as const,
+  top: (id: Game["id"], top: number, tourId?: Tour["id"]) => [
+    ...gameKey.detail(id),
+    "top",
+    { top: top, tour: tourId ?? "global" },
+  ],
 };
 
 export const questionKey = {
