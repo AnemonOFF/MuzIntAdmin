@@ -12,6 +12,7 @@ export interface SlideViewerProps {
   slide: Slide;
   onLoad: (id: Slide["id"]) => void;
   isCurrent: boolean;
+  isUserInteracted: boolean;
   gameId?: Game["id"];
   gamePack?: FullGamePack;
 }
@@ -22,6 +23,7 @@ const SlideViewer: React.FC<SlideViewerProps> = ({
   isCurrent,
   gameId,
   gamePack,
+  isUserInteracted,
 }) => {
   const [loadState, setLoadState] = useState({
     contentLoaded: false,
@@ -41,6 +43,8 @@ const SlideViewer: React.FC<SlideViewerProps> = ({
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
+    if (!loadState.contentLoaded || !loadState.audioLoaded || !isUserInteracted)
+      return;
     if (isCurrent) {
       if (videoRef.current) {
         videoRef.current.currentTime = 0;
@@ -60,7 +64,7 @@ const SlideViewer: React.FC<SlideViewerProps> = ({
         audioRef.current.currentTime = 0;
       }
     }
-  }, [isCurrent]);
+  }, [isCurrent, loadState, isUserInteracted]);
 
   useEffect(() => {
     if (loadState.contentLoaded && loadState.audioLoaded) {

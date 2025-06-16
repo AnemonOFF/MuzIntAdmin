@@ -60,6 +60,7 @@ const PresentationViewer: React.FC<PresentationViewerProps> = ({
     () => presentation?.slides.sort((a, b) => a.order - b.order),
     [presentation?.slides]
   );
+  const [userInteracted, setUserInteracted] = useState(false);
 
   const presentationStateRef = useRef({
     isSuccess: isGamePresentationStateLoaded,
@@ -135,7 +136,11 @@ const PresentationViewer: React.FC<PresentationViewerProps> = ({
     };
 
     document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
+    document.addEventListener("dblclick", nextSlide);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("dblclick", nextSlide);
+    };
   }, [
     canGoBack,
     isPresentationLoaded,
@@ -147,6 +152,16 @@ const PresentationViewer: React.FC<PresentationViewerProps> = ({
     previousSlide,
     nextSlide,
   ]);
+
+  useEffect(() => {
+    const handler = () => setUserInteracted(true);
+    document.addEventListener("click", handler);
+    document.addEventListener("keydown", handler);
+    return () => {
+      document.removeEventListener("click", handler);
+      document.removeEventListener("keydown", handler);
+    };
+  }, []);
 
   if (!isPresentationLoaded || (!!gameId && !isGamePackLoaded)) {
     return (
@@ -174,17 +189,14 @@ const PresentationViewer: React.FC<PresentationViewerProps> = ({
               hidden: currentSlideIndex !== index,
             }
           )}
-          onDoubleClick={() =>
-            setCurrentSlideIndex((prev) =>
-              prev < presentation.slides.length - 1 ? index + 1 : prev
-            )
-          }
+          // onDoubleClick={nextSlide}
           key={slide.id}
         >
           <SlideViewer
             slide={slide}
             onLoad={onSlideLoad}
             isCurrent={currentSlideIndex === index}
+            isUserInteracted={userInteracted}
             gameId={gameId}
             gamePack={gamePack}
           />
