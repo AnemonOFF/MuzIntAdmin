@@ -29,15 +29,17 @@ const BlockEditor: React.FC<BlockEditorProps> = ({ id, tourId }) => {
         <DeleteBlock id={id} tourId={tourId} />
         <span>Блок {block.order}</span>
       </div>
-      {block.questions.map((question) => (
-        <div
-          className="grid grid-cols-[1fr_auto] w-full gap-2"
-          key={`block_${id}_question_${question.id}`}
-        >
-          <EditQuestion id={question.id} blockId={id} />
-          <DeleteQuestion id={question.id} blockId={id} />
-        </div>
-      ))}
+      {block.questions
+        .sort((a, b) => a.id - b.id)
+        .map((question) => (
+          <div
+            className="grid grid-cols-[1fr_auto] w-full gap-2"
+            key={`block_${id}_question_${question.id}`}
+          >
+            <EditQuestion id={question.id} blockId={id} />
+            <DeleteQuestion id={question.id} blockId={id} />
+          </div>
+        ))}
       <AddQuestion blockId={id} />
     </div>
   );

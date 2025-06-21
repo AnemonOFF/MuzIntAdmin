@@ -5,6 +5,7 @@ import {
   Game,
   GamePresentationState,
   GameStatus,
+  SetWatermarkRequest,
 } from "@/shared/types/game";
 import { apiClient } from "./axios";
 import { Collection, Pagination } from "@/shared/types/generic";
@@ -160,6 +161,34 @@ const getTopPlayers = async (
   return response.data.items;
 };
 
+const setWatermark = async (
+  gameId: Game["id"],
+  data: SetWatermarkRequest,
+  file?: File
+) => {
+  const formData = new FormData();
+  if (file) formData.append("file", file);
+  for (const key in data) {
+    formData.append(
+      key,
+      (data as Record<string, string | number>)[key].toString()
+    );
+  }
+
+  const response = await apiClient.post<API_Game>(
+    `/games/${gameId}/presentation/watermark`,
+    formData
+  );
+  return apiMapper.mapGame(response.data);
+};
+
+const deleteWatermark = async (gameId: Game["id"]) => {
+  const response = await apiClient.delete<API_Game>(
+    `/games/${gameId}/presentation/watermark`
+  );
+  return apiMapper.mapGame(response.data);
+};
+
 const gamesController = {
   getGame,
   getGames,
@@ -177,6 +206,8 @@ const gamesController = {
   togglePresentationMode,
   getAnswersOrder,
   getTopPlayers,
+  setWatermark,
+  deleteWatermark,
 };
 
 export default gamesController;

@@ -1,9 +1,10 @@
 "use client";
 
+import { useUpdateSlideContentMutation } from "@/entities/presentation";
 import {
-  MIMETypes,
-  useUpdateSlideContentMutation,
-} from "@/entities/presentation";
+  validImageMIMETypes,
+  validVideoMIMETypes,
+} from "@/shared/types/mimeTypes";
 import { Presentation } from "@/shared/types/presentation";
 import { Slide } from "@/shared/types/slide";
 import { Button } from "@/shared/ui/button";
@@ -79,22 +80,18 @@ const UpdateSlideContent: React.FC<UpdateSlideContentProps> = ({
             onValueChange={(files) =>
               setValue(files.length > 0 ? files[0] : undefined)
             }
-            accept={MIMETypes.validImageMIMETypes
-              .concat(MIMETypes.validVideoMIMETypes)
-              .join(",")}
+            accept={validImageMIMETypes.concat(validVideoMIMETypes).join(",")}
             maxFiles={1}
             onFileReject={(_, message) => {
               setError(message);
             }}
             onFileValidate={(file: File) => {
-              if (
-                MIMETypes.validImageMIMETypes.includes(file.type.toLowerCase())
-              ) {
+              if (validImageMIMETypes.includes(file.type.toLowerCase())) {
                 if (file.size > 3 * 1024 * 1024)
                   return "Изображение должно весить не более 3 МБ";
                 return null;
               } else if (
-                MIMETypes.validVideoMIMETypes.includes(file.type.toLowerCase())
+                validVideoMIMETypes.includes(file.type.toLowerCase())
               ) {
                 if (file.size > 100 * 1024 * 1024)
                   return "Видео должно весить не более 100 МБ";

@@ -13,6 +13,7 @@ export type API_Game = {
   isRandomAnswers: boolean;
   isPresentationMode: boolean;
   presentationState: GamePresentationState;
+  watermark?: Watermark;
   startTimeUTC: string;
   startedTimeUTC?: string;
   endedTimeUTC?: string;
@@ -30,6 +31,7 @@ export type Game = {
   isRandomAnswers: boolean;
   isPresentationMode: boolean;
   presentationState: GamePresentationState;
+  watermark?: Watermark;
   startTimeUTC: Date;
   startedTimeUTC?: Date;
   endedTimeUTC?: Date;
@@ -55,6 +57,21 @@ export type CreateGameRequest = {
 export type GamePresentationState = {
   currentSlideId: Presentation["id"];
 };
+
+export type Watermark = {
+  widthPercentage: string;
+  heightPercentage: string;
+  leftPercentage: string;
+  topPercentage: string;
+  rightPercentage: string;
+  bottomPercentage: string;
+  translateXPercentage: string;
+  translateYPercentage: string;
+  rotateDegrees: string;
+  fileName: string;
+};
+
+export type SetWatermarkRequest = Omit<Watermark, "fileName">;
 
 export type AnswersOrder = {
   blocks: Block[];

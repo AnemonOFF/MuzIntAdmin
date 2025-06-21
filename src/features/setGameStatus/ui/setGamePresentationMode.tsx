@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  useGamePresentationQuery,
   useGameStore,
   useTogglePresentationModeMutation,
 } from "@/entities/game";
@@ -22,6 +23,7 @@ const SetGamePresentationMode: React.FC<
       gameId: state.id,
     }))
   );
+  const { data: presentationData } = useGamePresentationQuery(gameId);
   const { mutate: setPresentationMode, isPending: isTogglingPresentationMode } =
     useTogglePresentationModeMutation();
 
@@ -34,7 +36,9 @@ const SetGamePresentationMode: React.FC<
           setPresentationMode({ gameId: gameId, isPresentationMode: !!checked })
         }
         disabled={
-          status !== GameStatus.WaitForStart || isTogglingPresentationMode
+          status !== GameStatus.WaitForStart ||
+          isTogglingPresentationMode ||
+          !presentationData
         }
       />
       <Label htmlFor="presentationMode">Включить режим презентации</Label>

@@ -15,3 +15,5 @@ export { default as useAnswersOrderQuery } from "./useAnswersOrderQuery";
 export { default as useTogglePresentationModeMutation } from "./useTogglePresentationModeMutation";
 export { default as useToggleRandomMutation } from "./useToggleRandomMutation";
 export { default as useTopPlayersQuery } from "./useTopPlayersQuery";
+export { default as useSetGameWatermarkMutation } from "./useSetGameWatermarkMutation";
+export { default as useDeleteGameWatermarkMutation } from "./useDeleteGameWatermarkMutation";

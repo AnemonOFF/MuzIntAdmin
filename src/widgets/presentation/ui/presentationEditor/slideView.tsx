@@ -14,7 +14,7 @@ export interface SlideViewProps {
 
 const SlideView: React.FC<SlideViewProps> = ({ slide }) => {
   return (
-    <div className="aspect-video relative bg-muted">
+    <div className="aspect-video relative bg-muted xl:min-h-[400px]">
       {!slide ? (
         <div className="w-full h-full flex items-center justify-center">
           <span>Выберите слайд</span>

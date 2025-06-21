@@ -5,7 +5,7 @@ import { useLoadFile } from "@/entities/file";
 import { Slide, SlideType } from "@/shared/types/slide";
 import React, { useState, useEffect, useRef } from "react";
 import SlideDynamicContent from "./slideDynamicContent";
-import { Game } from "@/shared/types/game";
+import { Game, Watermark } from "@/shared/types/game";
 import { FullGamePack } from "@/shared/types/gamePack";
 
 export interface SlideViewerProps {
@@ -15,6 +15,7 @@ export interface SlideViewerProps {
   isUserInteracted: boolean;
   gameId?: Game["id"];
   gamePack?: FullGamePack;
+  watermark?: Watermark;
 }
 
 const SlideViewer: React.FC<SlideViewerProps> = ({
@@ -24,6 +25,7 @@ const SlideViewer: React.FC<SlideViewerProps> = ({
   gameId,
   gamePack,
   isUserInteracted,
+  watermark,
 }) => {
   const [loadState, setLoadState] = useState({
     contentLoaded: false,
@@ -109,6 +111,22 @@ const SlideViewer: React.FC<SlideViewerProps> = ({
           show={isCurrent}
           gameId={gameId}
           gamePack={gamePack}
+        />
+      )}
+      {watermark && (
+        <img
+          src={watermark.fileName}
+          alt="Вотермарка"
+          className="absolute"
+          style={{
+            width: watermark.widthPercentage + "%",
+            height: watermark.heightPercentage + "%",
+            left: watermark.leftPercentage + "%",
+            top: watermark.topPercentage + "%",
+            right: watermark.rightPercentage + "%",
+            bottom: watermark.bottomPercentage + "%",
+            transform: `translate(${watermark.translateXPercentage}%, ${watermark.translateYPercentage}%) rotate(${watermark.rotateDegrees}deg)`,
+          }}
         />
       )}
     </div>

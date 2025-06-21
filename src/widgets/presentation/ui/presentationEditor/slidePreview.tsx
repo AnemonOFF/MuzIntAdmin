@@ -23,7 +23,7 @@ const SlidePreview: React.FC<SlidePreviewProps> = ({
   return (
     <Button
       className={cn(
-        "aspect-video w-40 h-auto p-0 m-0 rounded border-2 !text-background text-xl relative group",
+        "aspect-video w-40 h-auto p-0 m-0 rounded border-2 !text-background text-xl relative group min-w-[200px]",
         { "border-primary": active }
       )}
       variant="outline"

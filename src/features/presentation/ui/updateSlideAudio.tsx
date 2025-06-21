@@ -1,10 +1,7 @@
 "use client";
 
 import { IconX } from "@tabler/icons-react";
-import {
-  MIMETypes,
-  useUpdateSlideAudioMutation,
-} from "@/entities/presentation";
+import { useUpdateSlideAudioMutation } from "@/entities/presentation";
 import { Presentation } from "@/shared/types/presentation";
 import { Slide } from "@/shared/types/slide";
 import { Button } from "@/shared/ui/button";
@@ -22,6 +19,7 @@ import Modal from "@/shared/ui/modal";
 import { IconCloudUpload, IconEdit } from "@tabler/icons-react";
 import axios from "axios";
 import React, { useState } from "react";
+import { validAudioMIMETypes } from "@/shared/types/mimeTypes";
 
 export interface UpdateSlideAudioProps {
   presentationId: Presentation["id"];
@@ -80,7 +78,7 @@ const UpdateSlideAudio: React.FC<UpdateSlideAudioProps> = ({
             onValueChange={(files) =>
               setValue(files.length > 0 ? files[0] : undefined)
             }
-            accept={MIMETypes.validAudioMIMETypes.join(",")}
+            accept={validAudioMIMETypes.join(",")}
             maxFiles={1}
             maxSize={10 * 1024 * 1024}
             onFileReject={(_, message) => {

@@ -36,3 +36,27 @@ export function getRandomTimeSpan(
 
   return `${formattedHours}:${formattedMinutes}:${formattedSeconds}.${formattedMicroseconds}`;
 }
+
+export function getImageSize(
+  image: File
+): Promise<{ width: number; height: number }> {
+  return new Promise((resolve, reject) => {
+    try {
+      const fileReader = new FileReader();
+
+      fileReader.onload = () => {
+        const img = new Image();
+
+        img.onload = () => {
+          resolve({ width: img.width, height: img.height });
+        };
+
+        img.src = fileReader.result as string;
+      };
+
+      fileReader.readAsDataURL(image);
+    } catch (e) {
+      reject(e);
+    }
+  });
+}

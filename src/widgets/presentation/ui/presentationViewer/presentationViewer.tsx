@@ -199,6 +199,7 @@ const PresentationViewer: React.FC<PresentationViewerProps> = ({
             isUserInteracted={userInteracted}
             gameId={gameId}
             gamePack={gamePack}
+            watermark={game?.watermark}
           />
         </div>
       ))}

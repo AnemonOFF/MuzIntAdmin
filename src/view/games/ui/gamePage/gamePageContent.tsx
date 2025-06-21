@@ -5,6 +5,7 @@ import {
   SetGamePresentationMode,
   SetGameRandom,
   SetGameStatus,
+  SetGameWatermark,
 } from "@/features/setGameStatus";
 import { haveFeatureAccess } from "@/shared/lib/roleHelpers";
 import { Game } from "@/shared/types/game";
@@ -40,8 +41,9 @@ const GamePageContent: React.FC<RealTimeContentProps> = ({ user, gameId }) => {
       <div className="max-lg:order-1 space-y-5">
         <GameState />
         <SetGamePresentationMode />
-        <SetGameStatus />
         <SetGameRandom />
+        <SetGameWatermark />
+        <SetGameStatus />
       </div>
     </div>
   );

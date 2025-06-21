@@ -1,6 +1,6 @@
 "use client";
 
-import { useCreateSlideMutation, MIMETypes } from "@/entities/presentation";
+import { useCreateSlideMutation } from "@/entities/presentation";
 import { Presentation } from "@/shared/types/presentation";
 import { Button } from "@/shared/ui/button";
 import { IconCloudUpload, IconX } from "@tabler/icons-react";
@@ -29,6 +29,11 @@ import {
   FileUploadList,
   FileUploadTrigger,
 } from "@/shared/ui/file-upload";
+import {
+  validAudioMIMETypes,
+  validImageMIMETypes,
+  validVideoMIMETypes,
+} from "@/shared/types/mimeTypes";
 
 export interface CreateSlideProps {
   presentationId: Presentation["id"];
@@ -82,8 +87,8 @@ const CreateSlide: React.FC<CreateSlideProps> = ({
                   onValueChange={(files) =>
                     field.onChange(files.length > 0 ? files[0] : undefined)
                   }
-                  accept={MIMETypes.validImageMIMETypes
-                    .concat(MIMETypes.validVideoMIMETypes)
+                  accept={validImageMIMETypes
+                    .concat(validVideoMIMETypes)
                     .join(",")}
                   maxFiles={1}
                   onFileReject={(_, message) => {
@@ -92,18 +97,12 @@ const CreateSlide: React.FC<CreateSlideProps> = ({
                     });
                   }}
                   onFileValidate={(file: File) => {
-                    if (
-                      MIMETypes.validImageMIMETypes.includes(
-                        file.type.toLowerCase()
-                      )
-                    ) {
+                    if (validImageMIMETypes.includes(file.type.toLowerCase())) {
                       if (file.size > 3 * 1024 * 1024)
                         return "Изображение должно весить не более 3 МБ";
                       return null;
                     } else if (
-                      MIMETypes.validVideoMIMETypes.includes(
-                        file.type.toLowerCase()
-                      )
+                      validVideoMIMETypes.includes(file.type.toLowerCase())
                     ) {
                       if (file.size > 100 * 1024 * 1024)
                         return "Видео должно весить не более 100 МБ";
@@ -161,7 +160,7 @@ const CreateSlide: React.FC<CreateSlideProps> = ({
                   onValueChange={(files) =>
                     field.onChange(files.length > 0 ? files[0] : undefined)
                   }
-                  accept={MIMETypes.validAudioMIMETypes.join(",")}
+                  accept={validAudioMIMETypes.join(",")}
                   maxFiles={1}
                   maxSize={10 * 1024 * 1024}
                   onFileReject={(_, message) => {

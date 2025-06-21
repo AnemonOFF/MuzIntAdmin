@@ -29,10 +29,11 @@ const EditSlide: React.FC<EditSlideProps> = ({
   slide,
   unselectSlide,
 }) => {
-  if (!slide) return <p className="text-center">Выберите слайд</p>;
+  if (!slide)
+    return <p className="text-center min-h-[400px]">Выберите слайд</p>;
 
   return (
-    <div className="space-y-5 overflow-y-auto">
+    <div className="space-y-5 overflow-y-auto max-w-[250px] min-h-[400px]">
       <div className="flex gap-2 items-center justify-between">
         <span>Слайд {slide.order}</span>
         <DeleteSlide
